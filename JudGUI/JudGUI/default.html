@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>JudGUI Examples</title>
+    <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.1.14/minified/require.js"></script>
+</head>
+<body>
+    <script>
+        createjs.MotionGuidePlugin.install();
+        requirejs.config({
+            baseUrl: '/Scripts/judGUI',
+            paths: {
+                sample: '../Examples'
+            }
+        });
+
+        requirejs(['sample/GeneralUsage']);
+
+    </script>
+</body>
+</html>
