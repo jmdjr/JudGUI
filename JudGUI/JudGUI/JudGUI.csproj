@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="default.html" />
+    <Content Include="Scripts\judGUI\DataEditors\Button.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralUsage.js" />
     <Content Include="Scripts\judGUI\Frames\Frame.js" />
     <Content Include="Scripts\judGUI\Frames\FrameCollection.js" />
@@ -80,9 +81,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\judGUI\DataEditors\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

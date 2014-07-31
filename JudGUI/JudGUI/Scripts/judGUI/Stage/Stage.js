@@ -49,5 +49,6 @@ define(['jquery'], function ($) {
         }
 
         judgui.Stage = Stage;
+        scope.judgui = judgui;
     }(window));
 });

@@ -3,21 +3,21 @@
         Engine Constructor
 *********************************************************************************************/
 
-define(['jquery', 'Util/Hash'], function ($) {
+define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames/Transitions'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        var Engine = function (height, width, target) {
+        var FrameEngine = function (height, width, target) {
             this.initialize(height, width, target);
         }
 
-        var p = Engine.prototype = new createjs.Container();
-        Engine.prototype.inherited_init = Engine.initialize;
+        var p = FrameEngine.prototype = new createjs.Container();
+        FrameEngine.prototype.inherited_init = FrameEngine.initialize;
 
-        p.Stage = new judgui.Stage(height, width, target);
+        p.Stage = null;
 
-        p._FrameCollections = new judgui.HashTable();
-        p._RunningFrameCollections = new judgui.HashTable();
+        p._FrameCollections = null;
+        p._RunningFrameCollections = null;
 
         p.NewFrameCollection = function (name, autoStart) {
             var fc = new judgui.FrameCollection(name);
@@ -31,10 +31,10 @@ define(['jquery', 'Util/Hash'], function ($) {
             this._FrameCollections[name].Engine = this;
 
             if (autoStart) {
-                return this._RunningFrameCollections.push(name, fc);
+                this._RunningFrameCollections.push(name, fc);
             }
 
-            return null;
+            return this._FrameCollections[name];
         }
 
         p.RunFrameCollection = function (name) {
@@ -44,15 +44,14 @@ define(['jquery', 'Util/Hash'], function ($) {
                 var fc = this._FrameCollections[name];
                 this.addChild(fc);
 
-                fc.enter();
-                fc.transitionIn().call(function (fc) {
+                fc.enterIn(function (fc) {
                     this._RunningFrameCollections.push(name, fc);
-                }, this, fc);
+                });
 
                 return fc;
             }
 
-            return null;
+            return this._FrameCollections[name];
         }
 
         p.HaultFrameCollection = function (name) {
@@ -63,17 +62,22 @@ define(['jquery', 'Util/Hash'], function ($) {
                 var fc = this._RunningFrameCollections.slice(fci, 1);
                 fc.isPaused = true;
 
-                fc.transitionOut().call(function (fc) {
-                    this.exit();
+                fc.exitOut(function (fc) {
                     this.removeChild(fc);
-                }, this, fc);
+                });
 
                 return fc;
             }
+
+            return null;
         }
 
         p.initialize = function (height, width, target) {
 
+            this._FrameCollections = new judgui.HashTable();
+            this._RunningFrameCollections = new judgui.HashTable();
+
+            this.Stage = new judgui.Stage(height, width, target);
             this.setBounds(0, 0, this.Stage.bounds.width, this.Stage.bounds.height);
             this.bounds = this.getBounds();
 
@@ -91,6 +95,7 @@ define(['jquery', 'Util/Hash'], function ($) {
             return this;
         }
 
-        judgui.Engine = Engine;
+        judgui.FrameEngine = FrameEngine;
+        scope.judgui = judgui;
     }(window));
 });

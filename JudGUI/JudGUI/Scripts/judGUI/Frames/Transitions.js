@@ -29,10 +29,10 @@ define(['jquery'], function ($) {
 
             this._Tween = function () { return createjs.Tween.get(this); };
 
-            this.transitionIn = jdge.FrameTransitions.in.Fade;
+            this.transitionIn = FrameTransitions.in.Fade;
             this.transitionInDuration = 1000;
 
-            this.transitionOut = jdge.FrameTransitions.out.Fade;
+            this.transitionOut = FrameTransitions.out.Fade;
             this.transitionOutDuration = 1000;
 
             //Called immidiately before running enterTansition
@@ -76,7 +76,9 @@ define(['jquery'], function ($) {
                 }
             };
         }
+
         judgui.MakeTransitionable = MakeTransitionable;
         judgui.FrameTransitions = FrameTransitions;
+        scope.judgui = judgui;
     }(window));
 });

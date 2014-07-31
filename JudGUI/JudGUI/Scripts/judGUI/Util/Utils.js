@@ -1,5 +1,5 @@
 ﻿
-define(function (scope) {
+define(['Util/Hash'], function (scope) {
     "use strict";
 
     var judgui = scope.judgui || {};
@@ -9,4 +9,5 @@ define(function (scope) {
     }
 
     judgui.IsUndefined = IsUndefined;
+    scope.judgui = judgui;
 }(window));

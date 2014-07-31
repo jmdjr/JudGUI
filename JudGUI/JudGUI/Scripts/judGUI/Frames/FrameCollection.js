@@ -3,109 +3,111 @@
       Engine Construct for Frames and States, since these two contain similar functionality.
 *********************************************************************************************/
 
-define(['jquery'], function ($) {
+define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
-jdge.FrameCollection = function (name) {
-    this.initialize(name);
-}
-
-var p = jdge.FrameCollection.prototype = new createjs.Container();
-jdge.FrameCollection.prototype.inherited_init = jdge.FrameCollection.initialize;
-
-p.initialize = function (name) {
-    if (this.inherited_init) this.inherited_init();
-
-    var $this = this;
-    this.Engine = null;
-    this.Frames = [];
-
-    this.level = 0;
-
-    this.isPaused = false;
-    this.runningFrame = null;
-
-    // adds transition functionality.
-    jdge.MakeTransitionable.call(this);
-
-    // loads a Frame into the state hash, for safe keeping.
-    this.add = function (name, frame) {
-        var newFrame = null;
-
-        if (jdge.IsUndefined(frame)) {
-            $.error('JDGE: FrameCollection: Initialization error 0003 - New Frame added is undefined');
+        var FrameCollection = function (name) {
+            this.initialize(name);
         }
 
-        if (frame instanceof jdge.Frame) {
-            newFrame = jdge.Frame;
-        }
-        else if (typeof frame === "function") {
-            newFrame = new jdge.Frame(frame);
-        }
+        var p = FrameCollection.prototype = new createjs.Container();
+        FrameCollection.prototype.inherited_init = FrameCollection.initialize;
 
-        newFrame.Engine = $this.Engine;
-        var frames = jdge.hashPush($this.Frames, name, newFrame);
+        // loads a Frame into the state hash, for safe keeping.
+        p.add = function (name, frame) {
+            var newFrame = null;
 
-        // this frame is its first...
-        if (frames.length == 1) {
-            this.goto(name);
-        }
-    }
+            if (judgui.IsUndefined(frame)) {
+                $.error('JDGE: FrameCollection: Initialization error 0003 - New Frame added is undefined');
+            }
 
-    // moves the currently running state to the one being named.
-    this.goto = function (frameName, wait4RunningFrame) {
+            if (frame instanceof judgui.Frame) {
+                newFrame = judgui.Frame;
+            }
+            else if (typeof frame === "function") {
+                newFrame = new judgui.Frame(frame);
+            }
 
-        if ($this.Frames.indexOf(frameName) == -1) {
-            $.error("JDGE: FrameCollection: 0000 - Goto: 'frameName' not found.");
-        }
+            newFrame.Engine = this.Engine;
 
-        var nextFrame = $this.Frames[frameName];
+            this.Frames.push(name, newFrame);
 
-        if (!(nextFrame instanceof jdge.Frame)) {
-            $.error("JDGE: FrameCollection: 0001 - Goto: Frame failed to be retrieved.");
-        }
-
-        var nextFrameEnter = function () {
-            $this.addChild(nextFrame);
-            nextFrame.enterIn(function (Frame) {
-                $this.runningFrame = Frame;
-            });
+            // this frame is its first...
+            if (frames.length == 1) {
+                this.goto(name);
+            }
         }
 
-        if (!jdge.IsUndefined($this.runningFrame)) {
-            $this.isPaused = true;
-            if (wait4RunningFrame) {
-                $this.runningFrame.exitOut(function (Frame) {
-                    $this.removeChild(Frame);
-                    nextFrameEnter();
-                    $this.isPaused = false;
+        // moves the currently running state to the one being named.
+        p.goto = function (frameName, wait4RunningFrame) {
+
+            if (this.Frames.indexOf(frameName) == -1) {
+                $.error("JDGE: FrameCollection: 0000 - Goto: 'frameName' not found.");
+            }
+
+            var nextFrame = this.Frames[frameName];
+
+            if (!(nextFrame instanceof judgui.Frame)) {
+                $.error("JDGE: FrameCollection: 0001 - Goto: Frame failed to be retrieved.");
+            }
+
+            var nextFrameEnter = function () {
+                this.addChild(nextFrame);
+                nextFrame.enterIn(function (Frame) {
+                    this.runningFrame = Frame;
                 });
             }
+
+            if (!judgui.IsUndefined(this.runningFrame)) {
+                this.isPaused = true;
+                if (wait4RunningFrame) {
+                    this.runningFrame.exitOut(function (Frame) {
+                        this.removeChild(Frame);
+                        nextFrameEnter();
+                        this.isPaused = false;
+                    });
+                }
+                else {
+                    this.runningFrame.exitOut(function (Frame) {
+                        this.removeChild(Frame);
+                        this.isPaused = false;
+                    });
+
+                    nextFrameEnter();
+                }
+            }
             else {
-                $this.runningFrame.exitOut(function (Frame) {
-                    $this.removeChild(Frame);
-                    $this.isPaused = false;
-                });
                 nextFrameEnter();
             }
         }
-        else {
-            nextFrameEnter();
+
+        p.update = function () {
+            if (!this.isPaused && !judgui.IsUndefined(this.runningFrame)) {
+                this.runningFrame.update();
+            }
         }
-    }
 
-    this.update = function () {
-        if (!$this.isPaused && !jdge.IsUndefined($this.runningFrame)) {
-            $this.runningFrame.update();
+        p.Engine = null;
+        p.Frames = null;
+        p.isPaused = false;
+        p.runningFrame = null;
+
+        p.initialize = function (name) {
+            if (this.inherited_init) this.inherited_init();
+
+            this.Engine = null;
+            this.Frames = new judgui.HashTable();
+            this.isPaused = false;
+            this.runningFrame = null;
+
+            // adds transition functionality.
+            judgui.MakeTransitionable.call(this);
+
+            return this;
         }
-    }
 
-    this.enter = function () { }
-    this.exit = function () { }
-    return $this;
-}
-
-judgui.Stage = Stage;
+        judgui.FrameCollection = FrameCollection;
+        scope.judgui = judgui;
     }(window));
 });

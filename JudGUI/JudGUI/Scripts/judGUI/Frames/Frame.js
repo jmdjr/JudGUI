@@ -3,31 +3,31 @@
         Frame Constructor
 *********************************************************************************************/
 
-define(['jquery'], function ($) {
+define(['jquery', 'Util/Utils', 'Frames/Transitions'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
-var Frame = function (initializer) {
-    this.initialize(initializer);
-}
+        var Frame = function (initializer) {
+            this.initialize(initializer);
+        }
 
-var p = Frame.prototype = new createjs.Container();
+        var p = Frame.prototype = new createjs.Container();
+        Frame.prototype.inherited_init = p.initialize;
 
-Frame.prototype.inherited_init = p.initialize;
+        p.Engine = null;
 
-Frame.prototype.initialize = function (initializer) {
-    if (this.inherited_init) this.inherited_init();
-    this.Engine = null;
+        p.initialize = function (initializer) {
+            if (this.inherited_init) this.inherited_init();
 
-    jdge.MakeTransitionable.call(this);
+            judgui.MakeTransitionable.call(this);
 
-    if (typeof initializer === 'function') {
-        initializer.call(this);
-    }
+            if (typeof initializer === 'function') {
+                initializer.call(this);
+            }
+            return this;
+        }
 
-    return $this;
-}
-
-judgui.Frame = Frame;
+        judgui.Frame = Frame;
+        scope.judgui = judgui;
     }(window));
 });

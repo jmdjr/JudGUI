@@ -1,6 +1,6 @@
 ﻿
 
-define(['jquery'], function ($) {
+define(function ($) {
     (function (scope) {
         "use strict";
 
@@ -94,5 +94,6 @@ define(['jquery'], function ($) {
         }
 
         judgui.HashTable = HashTable;
+        scope.judgui = judgui;
     }(window));
 });
