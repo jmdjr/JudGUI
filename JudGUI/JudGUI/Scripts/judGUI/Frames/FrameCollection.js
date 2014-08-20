@@ -16,22 +16,19 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
 
         // loads a Frame into the state hash, for safe keeping.
         p.add = function (name, frame) {
-            var newFrame = null;
 
             if (judgui.IsUndefined(frame)) {
+                debugger;
                 $.error('JDGE: FrameCollection: Initialization error 0003 - New Frame added is undefined');
             }
 
-            if (frame instanceof judgui.Frame) {
-                newFrame = judgui.Frame;
-            }
-            else if (typeof frame === "function") {
-                newFrame = new judgui.Frame(frame);
+            if (typeof frame === "function") {
+                frame = new judgui.Frame(frame);
             }
 
-            newFrame.Engine = this.Engine;
+            frame.Engine = this.Engine;
 
-            this.Frames.push(name, newFrame);
+            this.Frames.push(name, frame);
 
             // this frame is its first...
             if (this.Frames.length == 1) {
@@ -50,12 +47,14 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
         p.goto = function (frameName, wait4RunningFrame) {
 
             if (this.Frames.indexOf(frameName) == -1) {
+                debugger;
                 $.error("JDGE: FrameCollection: 0000 - Goto: 'frameName' not found.");
             }
 
             var nextFrame = this.Frames[frameName];
 
             if (!(nextFrame instanceof judgui.Frame)) {
+                debugger;
                 $.error("JDGE: FrameCollection: 0001 - Goto: Frame failed to be retrieved.");
             }
 

@@ -73,8 +73,10 @@ define(['jquery', 'Util/Utils'], function ($) {
         }
 
         p.enableClick = function () {
+            debugger;
             this.on('click', function (e) {
                 if (this._clickCallback) {
+                    debugger;
                     e.Button = this;
                     this._clickCallback(e);
                 }
