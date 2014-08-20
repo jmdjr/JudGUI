@@ -34,9 +34,16 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
             this.Frames.push(name, newFrame);
 
             // this frame is its first...
-            if (frames.length == 1) {
+            if (this.Frames.length == 1) {
                 this.goto(name);
             }
+        }
+
+        p._nextFrameEnter = function (nextFrame) {
+            this.addChild(nextFrame);
+            nextFrame.enterIn(function (Frame) {
+                this.runningFrame = Frame;
+            });
         }
 
         // moves the currently running state to the one being named.
@@ -52,19 +59,12 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
                 $.error("JDGE: FrameCollection: 0001 - Goto: Frame failed to be retrieved.");
             }
 
-            var nextFrameEnter = function () {
-                this.addChild(nextFrame);
-                nextFrame.enterIn(function (Frame) {
-                    this.runningFrame = Frame;
-                });
-            }
-
             if (!judgui.IsUndefined(this.runningFrame)) {
                 this.isPaused = true;
                 if (wait4RunningFrame) {
                     this.runningFrame.exitOut(function (Frame) {
                         this.removeChild(Frame);
-                        nextFrameEnter();
+                        this._nextFrameEnter(nextFrame);
                         this.isPaused = false;
                     });
                 }
@@ -74,11 +74,11 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
                         this.isPaused = false;
                     });
 
-                    nextFrameEnter();
+                    this._nextFrameEnter(nextFrame);
                 }
             }
             else {
-                nextFrameEnter();
+                this._nextFrameEnter(nextFrame);
             }
         }
 

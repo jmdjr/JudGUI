@@ -1,0 +1,5 @@
+C:\Users\johndavis\Documents\GitHub\JudGUI\JudGUI\JudGUI\bin\JudGUI.dll
+C:\Users\johndavis\Documents\GitHub\JudGUI\JudGUI\JudGUI\bin\JudGUI.pdb
+C:\Users\johndavis\Documents\GitHub\JudGUI\JudGUI\JudGUI\obj\Debug\JudGUI.csprojResolveAssemblyReference.cache
+C:\Users\johndavis\Documents\GitHub\JudGUI\JudGUI\JudGUI\obj\Debug\JudGUI.dll
+C:\Users\johndavis\Documents\GitHub\JudGUI\JudGUI\JudGUI\obj\Debug\JudGUI.pdb

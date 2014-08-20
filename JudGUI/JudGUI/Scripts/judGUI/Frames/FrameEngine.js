@@ -85,7 +85,13 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
 
             this.on('tick', function () {
                 this._RunningFrameCollections.forEach(function (item) {
-                    this._RunningFrameCollections[item].update();
+                    item = this._RunningFrameCollections[item];
+
+                    if (!this.contains(item)) {
+                        this.addChild(item);
+                    }
+
+                    item.update();
                 }, this);
             }, this);
 

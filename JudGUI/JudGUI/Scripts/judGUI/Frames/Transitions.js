@@ -35,14 +35,15 @@ define(['jquery'], function ($) {
             this.transitionOut = FrameTransitions.out.Fade;
             this.transitionOutDuration = 1000;
 
+
             //Called immidiately before running enterTansition
-            this.enter = function () { };
+            this.enter = this.enter || function () { };
 
             //Called on every tick
-            this.update = function () { };
+            this.update = this.update || function () { };
 
             //Called immidiately after running exitTransition
-            this.exit = function () { };
+            this.exit = this.exit || function () { };
 
             // combines the enter and transitionIn funcitonality 
             this.enterIn = function (enterCall) {
