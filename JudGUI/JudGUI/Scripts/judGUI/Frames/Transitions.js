@@ -3,8 +3,8 @@ define(['jquery'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        // transitions used by any Transitionable object.  
-        // a 'transitionable' object is any object that calls 'MakeTransitionable' function below.
+        // transitions used by any Transition-able object.  
+        // a 'transition-able' object is any object that calls 'MakeTransitionable' function below.
         var FrameTransitions = {
 
             // Transitions meant for making Frames appear
@@ -29,12 +29,11 @@ define(['jquery'], function ($) {
 
             this._Tween = function () { return createjs.Tween.get(this); };
 
-            this.transitionIn = FrameTransitions.in.Fade;
-            this.transitionInDuration = 1000;
+            this.transitionIn = this.transitionIn || FrameTransitions.in.Fade;
+            this.transitionInDuration = this.transitionInDuration || 1000;
 
-            this.transitionOut = FrameTransitions.out.Fade;
-            this.transitionOutDuration = 1000;
-
+            this.transitionOut = this.transitionOut || FrameTransitions.out.Fade;
+            this.transitionOutDuration = this.transitionOutDuration || 1000;
 
             //Called immidiately before running enterTansition
             this.enter = this.enter || function () { };
@@ -53,11 +52,11 @@ define(['jquery'], function ($) {
                 if (typeof this.transitionIn === "function") {
 
                     this.transitionIn().call(function () {
-                        this.mouseChildren = true;
                         if (typeof enterCall === "function") {
-                            enterCall(this);
+                            enterCall.call(this);
                         }
-                    });
+                        this.mouseChildren = true;
+                    }, null, this);
                 }
             };
 
@@ -69,10 +68,10 @@ define(['jquery'], function ($) {
 
                     this.transitionOut().call(function () {
                         this.exit();
-                        this.mouseChildren = true;
                         if (typeof exitCall === "function") {
-                            exitCall(this);
+                            exitCall.call(this);
                         }
+                        this.mouseChildren = true;
                     }, null, this);
                 }
             };

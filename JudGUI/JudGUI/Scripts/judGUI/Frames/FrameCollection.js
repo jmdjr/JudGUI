@@ -14,6 +14,8 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
         var p = FrameCollection.prototype = new createjs.Container();
         FrameCollection.prototype.inherited_init = FrameCollection.initialize;
 
+        p.bounds = null;
+
         // loads a Frame into the state hash, for safe keeping.
         p.add = function (name, frame) {
 
@@ -38,8 +40,10 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
 
         p._nextFrameEnter = function (nextFrame) {
             this.addChild(nextFrame);
-            nextFrame.enterIn(function (Frame) {
-                this.runningFrame = Frame;
+            var $FC = this;
+            nextFrame.enterIn(function () {
+                $FC.runningFrame = this;
+                $FC.isPaused = false;
             });
         }
 
@@ -57,20 +61,20 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
                 debugger;
                 $.error("JDGE: FrameCollection: 0001 - Goto: Frame failed to be retrieved.");
             }
-
             if (!judgui.IsUndefined(this.runningFrame)) {
                 this.isPaused = true;
+                var $FC = this;
                 if (wait4RunningFrame) {
-                    this.runningFrame.exitOut(function (Frame) {
-                        this.removeChild(Frame);
-                        this._nextFrameEnter(nextFrame);
-                        this.isPaused = false;
+
+                    this.runningFrame.exitOut(function () {
+                        $FC.removeChild(Frame);
+                        $FC._nextFrameEnter(nextFrame);
                     });
                 }
                 else {
-                    this.runningFrame.exitOut(function (Frame) {
-                        this.removeChild(Frame);
-                        this.isPaused = false;
+                    this.isPaused = true;
+                    this.runningFrame.exitOut(function () {
+                        $FC.removeChild(this);
                     });
 
                     this._nextFrameEnter(nextFrame);
@@ -99,6 +103,7 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
             this.Frames = new judgui.HashTable();
             this.isPaused = false;
             this.runningFrame = null;
+            this.bounds = this.getBounds();
 
             // adds transition functionality.
             judgui.MakeTransitionable.call(this);

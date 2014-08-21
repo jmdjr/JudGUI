@@ -15,15 +15,18 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions'], function ($) {
         Frame.prototype.inherited_init = p.initialize;
 
         p.Engine = null;
+        p.bounds = null;
 
         p.initialize = function (initializer) {
             if (this.inherited_init) this.inherited_init();
 
             judgui.MakeTransitionable.call(this);
+            this.bounds = this.getBounds();
 
             if (typeof initializer === 'function') {
                 initializer.call(this);
             }
+
             return this;
         }
 

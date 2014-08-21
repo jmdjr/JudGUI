@@ -18,6 +18,7 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
 
         p._FrameCollections = null;
         p._RunningFrameCollections = null;
+        p.bounds = null;
 
         p.NewFrameCollection = function (name, autoStart) {
             var fc = new judgui.FrameCollection(name);
