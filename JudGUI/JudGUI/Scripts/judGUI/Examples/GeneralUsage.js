@@ -28,21 +28,32 @@
             this.addChild(screen);
             this.addChild(testButton);
 
-            this.update = function () {
-                testButton.x += 1;
-            }
         });
 
         var GameFrame = new judgui.Frame(function () {
             var testButton = new judgui.Button("Goto Main Menu", "", buttonStyle, function () {
-                MenusFC.goto("MainMenu", false);
+                MenusFC.goto("TestFrame", false);
             }).position(100, 100);
 
             this.addChild(testButton);
         });
 
+        var TestFrame = new judgui.Frame();
+
+        TestFrame.add('Button', {
+            text: 'It Works',
+            value: '',
+            style: buttonStyle,
+            clickEvent: function () {
+                MenusFC.goto("MainMenu", false);
+            },
+            x: 100,
+            y: 100
+        });
+
 
         MenusFC.add('MainMenu', MainMenu);
         MenusFC.add('GameScreen', GameFrame);
+        MenusFC.add('TestFrame', TestFrame);
     });
 });

@@ -30,6 +30,15 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions'], function ($) {
             return this;
         }
 
+        // adds a new element to this frame based on name, accepts multiple arguments for initializing the element
+        p.add = function (name, initialize) {
+            if (name instanceof createjs.DisplayObject) {
+                this.addChild(name);
+            } else if (!(!(judgui[name]) || !(judgui[name]._Spawner))) {
+                this.addChild(new judgui[name]._Spawner(initialize));
+            }
+        }
+
         judgui.Frame = Frame;
         scope.judgui = judgui;
     }(window));

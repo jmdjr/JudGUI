@@ -15,6 +15,11 @@ define(['jquery', 'Util/Utils'], function ($) {
         var p = Button.prototype = new createjs.Container();
         Button.prototype.inherited_init = p.initialize;
 
+        Button._Spawner = function (initializerObject) {
+            var o = initializerObject || {};
+            return new Button(o['text'], o['value'], o['style'], o['clickEvent']).position(o['x'], o['y']);
+        }
+
         p._Graphic = null;
         p._Text = null;
         p._Value = null;
@@ -129,6 +134,9 @@ define(['jquery', 'Util/Utils'], function ($) {
             if (this.inherited_init) this.inherited_init();
 
             $.extend(true, this.Style, style);
+            text = text || "Default";
+            value = value || 0;
+            clickEvent = clickEvent || function () { };
 
             var s = this.Style;
             this._Value = value;
@@ -152,6 +160,8 @@ define(['jquery', 'Util/Utils'], function ($) {
 
             // calls necessary rendering and caching functions.
             this.Text(text);
+
+            return this;
         }
 
         judgui.Button = Button;
