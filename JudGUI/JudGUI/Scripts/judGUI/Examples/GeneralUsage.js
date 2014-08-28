@@ -1,10 +1,10 @@
-﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button'], function ($) {
+﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons'], function ($) {
     $(function () {
 
         var Windows = new judgui.FrameEngine(600, 800);
         var MenusFC = Windows.NewFrameCollection('Menus', true);
 
-        var buttonStyle = {
+        var MenuButtonStyle = {
             font: "12px Arial",
             color: "#FFFFFF",
             textAlign: "center",
@@ -17,33 +17,37 @@
             width: 125
         }
 
-        var MainMenu = new judgui.Frame(function () {
-            var screen = new createjs.Shape();
-            this.transitionInDuration = 500;
-            screen.graphics.s("#FF0000").rr(1, 1, Windows.bounds.width - 2, Windows.bounds.height - 2, 0);
-            var testButton = new judgui.Button("Goto Game Frame", "", buttonStyle, function () {
-                MenusFC.goto("GameScreen", false);
-            }).position(300, 400);
+        var buttonClick = function (event) {
+            MenusFC.goto(event.Button._Value, false);
+        }
 
-            this.addChild(screen);
-            this.addChild(testButton);
-
+        var MainMenu = new judgui.Frame();
+        MainMenu.add('Button', {
+            text: 'To Second Screen',
+            value: 'GameFrame',
+            style: MenuButtonStyle,
+            clickEvent: buttonClick,
+            x: 100,
+            y: 100
         });
 
-        var GameFrame = new judgui.Frame(function () {
-            var testButton = new judgui.Button("Goto Main Menu", "", buttonStyle, function () {
-                MenusFC.goto("TestFrame", false);
-            }).position(100, 100);
 
-            this.addChild(testButton);
+        var GameFrame = new judgui.Frame();
+        GameFrame.add('Button', {
+            text: 'To Test Frame',
+            value: 'TestFrame',
+            style: MenuButtonStyle,
+            clickEvent: buttonClick,
+            x: 100,
+            y: 100
         });
 
         var TestFrame = new judgui.Frame();
 
         TestFrame.add('Button', {
             text: 'It Works',
-            value: '',
-            style: buttonStyle,
+            value: 'MainMenu',
+            style: MenuButtonStyle,
             clickEvent: function () {
                 MenusFC.goto("MainMenu", false);
             },
@@ -53,7 +57,7 @@
 
 
         MenusFC.add('MainMenu', MainMenu);
-        MenusFC.add('GameScreen', GameFrame);
+        MenusFC.add('GameFrame', GameFrame);
         MenusFC.add('TestFrame', TestFrame);
     });
 });
