@@ -16,41 +16,19 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
 
         p.bounds = null;
 
-        p.Frames = null;
-        p.isPaused = false;
-        p.runningFrame = null;
-
-        p.initialize = function (name) {
-            if (this.inherited_init) this.inherited_init();
-
-            this.Frames = new judgui.HashTable();
-            this.isPaused = false;
-            this.runningFrame = null;
-            this.bounds = this.getBounds();
-
-            // adds transition functionality.
-            judgui.MakeTransitionable.call(this);
-            judgui.MakeFramingBackground.call(this);
-
-            return this;
-        }
-
         // loads a Frame into the state hash, for safe keeping.
         p.add = function (name, frame) {
 
-            if (typeof name !== 'string') {
-                throw Error('JDGE: FrameCollection: Initialization error 0001 - New Frame name is not a string.');
+            if (judgui.IsUndefined(frame)) {
+                debugger;
+                $.error('JDGE: FrameCollection: Initialization error 0003 - New Frame added is undefined');
             }
-            
-            if ( judgui.IsUndefined(frame)) {
-                // creates a dummy frame and returns it.
-                frame = new judgui.Frame();
-            }
-            else if (typeof frame === "function") {
+
+            if (typeof frame === "function") {
                 frame = new judgui.Frame(frame);
             }
 
-            frame.SetEngine(this.Engine);
+            frame.Engine = this.Engine;
 
             this.Frames.push(name, frame);
 
@@ -111,6 +89,26 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
             if (!this.isPaused && !judgui.IsUndefined(this.runningFrame)) {
                 this.runningFrame.update();
             }
+        }
+
+        p.Engine = null;
+        p.Frames = null;
+        p.isPaused = false;
+        p.runningFrame = null;
+
+        p.initialize = function (name) {
+            if (this.inherited_init) this.inherited_init();
+
+            this.Engine = null;
+            this.Frames = new judgui.HashTable();
+            this.isPaused = false;
+            this.runningFrame = null;
+            this.bounds = this.getBounds();
+
+            // adds transition functionality.
+            judgui.MakeTransitionable.call(this);
+
+            return this;
         }
 
         judgui.FrameCollection = FrameCollection;

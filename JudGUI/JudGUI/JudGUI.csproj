@@ -59,9 +59,7 @@
   <ItemGroup>
     <Content Include="default.html" />
     <Content Include="Scripts\judGUI\DataEditors\Button.js" />
-    <Content Include="Scripts\judGUI\Examples\GeneralButtons.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralUsage.js" />
-    <Content Include="Scripts\judGUI\Frames\Backgrounds.js" />
     <Content Include="Scripts\judGUI\Frames\Frame.js" />
     <Content Include="Scripts\judGUI\Frames\FrameCollection.js" />
     <Content Include="Scripts\judGUI\Frames\FrameEngine.js" />
