@@ -7,7 +7,6 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], fun
     (function (scope) {
         var judgui = scope.judgui || {};
 
-
         var Frame = function (design, initializer) {
             this.initialize(design, initializer);
         }
@@ -26,7 +25,6 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], fun
             this.bounds = this.getBounds();
 
             if (typeof design === 'object') {
-
                 this._extendStyle(design);
 
                 if (typeof initializer === 'function') {

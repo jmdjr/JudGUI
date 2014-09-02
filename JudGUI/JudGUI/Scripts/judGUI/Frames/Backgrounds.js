@@ -19,19 +19,19 @@ define(['jquery'], function ($) {
         var MakeFramingBackground = function () {
 
             this.Engine = null;
-            this._Style = background;
+            this._Style = $.extend(true, {}, background);
             this._Graphic = new createjs.Shape();
             this.addChild(this._Graphic);
 
             this._extendStyle = function (style) {
                 $.extend(true, this._Style, style);
-
+                debugger;
             }
 
             this._drawBackground = function () {
                 var b = this.bounds = this.bounds || this.getBounds();
                 var s = this._Style;
-
+                debugger;
                 if (s.borderWidth == 0) {
                     this._Graphic.graphics
                     .f(s.backgroundColor)

@@ -17,6 +17,16 @@
             width: 125
         }
 
+        var MenuBackgroundStyle = {
+            imageURL: '',     //if defined, attempts to create a bitmap using this url.
+            height: null,     //if set to null, will set to dimension of engine.
+            width: null,      //if set to null, will set to dimension of engine.
+            borderWidth: 5,
+            borderColor: '#000000',
+            backgroundColor: '#FFFFFF',
+            borderRadius: 20
+        }
+
         var buttonClick = function (event) {
             MenusFC.goto(event.Button._Value, false);
         }
@@ -31,8 +41,7 @@
             y: 100
         });
 
-
-        var GameFrame = new judgui.Frame();
+        var GameFrame = new judgui.Frame(MenuBackgroundStyle);
         GameFrame.add('Button', {
             text: 'To Test Frame',
             value: 'TestFrame',
@@ -43,7 +52,6 @@
         });
 
         var TestFrame = new judgui.Frame();
-
         TestFrame.add('Button', {
             text: 'It Works',
             value: 'MainMenu',
