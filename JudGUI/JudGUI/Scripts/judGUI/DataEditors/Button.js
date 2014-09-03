@@ -43,7 +43,7 @@ define(['jquery', 'Util/Utils'], function ($) {
             width: 125
         }
 
-        p.Style = DefaultStyle;
+        p.Style = $.extend(true, {}, DefaultStyle);
 
         p.Text = function (text) {
             if (text) {
@@ -53,7 +53,11 @@ define(['jquery', 'Util/Utils'], function ($) {
 
             return this._Text.text;
         }
-
+        p.UpdateStyle = function (style) {
+            debugger;
+            $.extend(true, this.Style, style);
+            this._drawButton();
+        }
         // call this only when button NEEDS to be re-rendered, as in on initialize and style updates.
         p._drawButton = function () {
 
@@ -100,7 +104,7 @@ define(['jquery', 'Util/Utils'], function ($) {
                     break;
 
                 case "middle":
-                    yPos = s.height / 2;
+                    yPos = s.height / 2; //- yPos;
                     break;
 
                 case "bottom":
@@ -117,6 +121,9 @@ define(['jquery', 'Util/Utils'], function ($) {
                 // no cache active, initialze cache.
                 this.cache(0, 0, b.width, b.height);
             }
+            else {
+                this.updateCache();
+            }
 
         }
 
@@ -126,9 +133,6 @@ define(['jquery', 'Util/Utils'], function ($) {
 
             return this;
         }
-
-        p.enableClick = function () {
-        };
 
         p.initialize = function (text, value, style, clickEvent) {
             if (this.inherited_init) this.inherited_init();

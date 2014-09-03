@@ -71,6 +71,7 @@
     <Content Include="Scripts\judGUI\jquery.js" />
     <Content Include="Scripts\judGUI\Stage\Stage.js" />
     <Content Include="Scripts\judGUI\Util\Hash.js" />
+    <Content Include="Scripts\judGUI\Util\GamePieces.js" />
     <Content Include="Scripts\judGUI\Util\Utils.js" />
     <Content Include="Web.config" />
   </ItemGroup>

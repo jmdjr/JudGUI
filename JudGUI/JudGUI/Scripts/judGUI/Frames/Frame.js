@@ -51,6 +51,7 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], fun
             return false;
         }
 
+
         judgui.Frame = Frame;
         scope.judgui = judgui;
     }(window));

@@ -44,6 +44,7 @@ define(['jquery'], function ($) {
             //Called immidiately after running exitTransition
             this.exit = this.exit || function () { };
 
+            this._MousePropagation = true;
             // combines the enter and transitionIn funcitonality 
             this.enterIn = function (enterCall) {
                 this.mouseChildren = false;
@@ -55,7 +56,7 @@ define(['jquery'], function ($) {
                         if (typeof enterCall === "function") {
                             enterCall.call(this);
                         }
-                        this.mouseChildren = true;
+                        this.mouseChildren = this._MousePropagation;
                     }, null, this);
                 }
             };
@@ -71,7 +72,7 @@ define(['jquery'], function ($) {
                         if (typeof exitCall === "function") {
                             exitCall.call(this);
                         }
-                        this.mouseChildren = true;
+                        this.mouseChildren = this._MousePropagation;
                     }, null, this);
                 }
             };

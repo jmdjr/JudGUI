@@ -1,6 +1,5 @@
 ﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons'], function ($) {
     $(function () {
-
         var Windows = new judgui.FrameEngine(600, 800);
         var MenusFC = Windows.NewFrameCollection('Menus', true);
 
@@ -10,7 +9,7 @@
             textAlign: "center",
             textBaseline: "middle",
             borderRadius: 0,
-            borderWidth: 1,
+            borderWidth: 5,
             borderColor: "#FF0000",
             backgroundColor: "#000000",
             height: 30,
@@ -33,8 +32,8 @@
 
         var MainMenu = new judgui.Frame();
         MainMenu.add('Button', {
-            text: 'To Second Screen',
-            value: 'GameFrame',
+            text: 'To GeneralButtons',
+            value: 'GeneralButtons',
             style: MenuButtonStyle,
             clickEvent: buttonClick,
             x: 100,
@@ -66,6 +65,7 @@
 
         MenusFC.add('MainMenu', MainMenu);
         MenusFC.add('GameFrame', GameFrame);
+        MenusFC.add('GeneralButtons', new Example.Buttons);
         MenusFC.add('TestFrame', TestFrame);
     });
 });
