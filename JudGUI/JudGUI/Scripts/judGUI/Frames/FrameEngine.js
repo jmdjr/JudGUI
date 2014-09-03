@@ -24,11 +24,6 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
             var fc = new judgui.FrameCollection(name);
 
             this._FrameCollections.push(name, fc);
-
-            if (this._FrameCollections.indexOf(name) == -1) {
-                return null;
-            }
-
             this._FrameCollections[name].Engine = this;
 
             if (autoStart) {
@@ -97,7 +92,6 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
             }, this);
 
             this.Stage.addChild(this);
-            this.super_addchild = this.addChild;
 
             return this;
         }

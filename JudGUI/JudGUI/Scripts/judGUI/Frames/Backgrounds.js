@@ -25,13 +25,11 @@ define(['jquery'], function ($) {
 
             this._extendStyle = function (style) {
                 $.extend(true, this._Style, style);
-                debugger;
             }
 
             this._drawBackground = function () {
                 var b = this.bounds = this.bounds || this.getBounds();
                 var s = this._Style;
-                debugger;
                 if (s.borderWidth == 0) {
                     this._Graphic.graphics
                     .f(s.backgroundColor)

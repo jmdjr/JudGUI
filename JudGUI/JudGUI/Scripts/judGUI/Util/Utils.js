@@ -1,5 +1,5 @@
 ﻿
-define(['Util/Hash'], function (scope) {
+define(function (scope) {
     "use strict";
 
     var judgui = scope.judgui || {};

@@ -1,4 +1,4 @@
-﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons'], function ($) {
+﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons', 'Util/UtilityPieces'], function ($) {
     (function (scope) {
         var Example = scope.Example || {};
 
@@ -55,11 +55,10 @@
                 clickEvent: function (event) {
                     switch (event.Button._Value) {
                         case 'change button colors':
-                            debugger;
                             event.Button.UpdateStyle({
-                                color: '#' + (Math.random().toString(16) + '000000').slice(2, 8),
-                                backgroundColor: '#' + (Math.random().toString(16) + '000000').slice(2, 8),
-                                borderColor: '#' + (Math.random().toString(16) + '000000').slice(2, 8)
+                                color: judgui.Random.color(),
+                                backgroundColor: judgui.Random.color(),
+                                borderColor: judgui.Random.color()
                             });
                         break;
                     }

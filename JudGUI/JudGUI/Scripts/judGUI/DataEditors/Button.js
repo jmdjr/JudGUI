@@ -54,7 +54,6 @@ define(['jquery', 'Util/Utils'], function ($) {
             return this._Text.text;
         }
         p.UpdateStyle = function (style) {
-            debugger;
             $.extend(true, this.Style, style);
             this._drawButton();
         }

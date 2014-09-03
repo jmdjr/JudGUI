@@ -1,7 +1,8 @@
-﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons'], function ($) {
+﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons', 'Frames/Debuggable'], function ($) {
     $(function () {
         var Windows = new judgui.FrameEngine(600, 800);
         var MenusFC = Windows.NewFrameCollection('Menus', true);
+
 
         var MenuButtonStyle = {
             font: "12px Arial",
@@ -67,5 +68,7 @@
         MenusFC.add('GameFrame', GameFrame);
         MenusFC.add('GeneralButtons', new Example.Buttons);
         MenusFC.add('TestFrame', TestFrame);
+
+        var debug = new PresentDebug();
     });
 });
