@@ -1,9 +1,7 @@
 ﻿
-define(['jquery'], function ($) {
+define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
-
-        judgui._JD_DEBUG_ = false;
 
         var Stage = function (height, width, target) {
             this.initialize(height, width, target);
@@ -12,39 +10,84 @@ define(['jquery'], function ($) {
         var p = Stage.prototype;
 
         p.addChild = function (child) {
-            this.stage.addChild(child);
+            this._Stage.addChild(child);
+        }
+
+        p.on = function (eventLabel, listener) {
+            this._Stage.on(eventLabel, listener);
+        }
+
+        p._Stage = null;
+        p._Canvas = null;
+        p._Context = null;
+
+        p._dispatchEvent = function (e, target) {
+
+            if (judgui.IsUndefined(target.children)) {
+                target.dispatchEvent(e);
+                return;
+            }
+
+            var i = 0;
+
+            while (i < target.children.length) {
+                this._dispatchEvent(e, target.children[i++]);
+            }
+
+            if (!(target instanceof judgui.Stage)) {
+                target.dispatchEvent(e);
+            }
         }
 
         p.initialize = function (height, width, target) {
-            this.canvas = document.createElement(navigator.isCocoonJS ? 'screencanvas' : 'canvas');
+            this._Canvas = document.createElement(navigator.isCocoonJS ? 'screencanvas' : 'canvas');
 
-            this.canvas.width = width;
-            this.canvas.height = height;
-
-            this.context = this.canvas.getContext("2d");
+            this._Canvas.width = width;
+            this._Canvas.height = height;
+            
+            this._Context = this._Canvas.getContext("2d");
 
             if (target) {
-                $(target).append(this.canvas);
+                $(target).append(this._Canvas);
             }
             else {
-                document.body.appendChild(this.canvas);
+                document.body.appendChild(this._Canvas);
             }
 
-            this.stage = new createjs.Stage(this.canvas);
-            this.stage.setBounds(0, 0, this.canvas.width, this.canvas.height);
-            this.bounds = this.stage.getBounds();
+            // Makes the canvas focusable for text fields.
+            this._Canvas.tabIndex = 1000;
+            $(this._Canvas).css('outline', 'none');
 
-            //if (judgui._JD_DEBUG_) {
-            //    var debugBox = new createjs.Shape();
-            //    debugBox.graphics.s("#0000ff").r(this.x, this.y, this.bounds.width, this.bounds.height);
-            //    this.stage.addChild(debugBox);
-            //}
+            this._Stage = new createjs.Stage(this._Canvas);
+            this._Stage.setBounds(0, 0, this._Canvas.width, this._Canvas.height);
+            this.bounds = this._Stage.getBounds();
 
             createjs.Ticker.setFPS(30);
-            createjs.Ticker.addEventListener('tick', this.stage);
+            createjs.Ticker.addEventListener('tick', this._Stage);
 
-            this.on = function (eventLabel, listener) {
-                this.stage.on(eventLabel, listener);
+            var $_Stage = this._Stage;
+            var $_this = this;
+
+            this._Canvas.onclick = function (e) {
+                $_this._dispatchEvent('blur', $_Stage);
+            }
+
+            this._Canvas.onkeydown = function (e) {
+                var event = new createjs.Event('focus.keydown');
+                event.rawEvent = e;
+                $_this._dispatchEvent(event, $_Stage);
+            }
+
+            this._Canvas.onkeypress = function (e) {
+                var event = new createjs.Event('focus.keypress');
+                event.rawEvent = e;
+                $_this._dispatchEvent(event, $_Stage);
+            }
+
+            this._Canvas.onkeyup = function (e) {
+                var event = new createjs.Event('focus.keyup');
+                event.rawEvent = e;
+                $_this._dispatchEvent(event, $_Stage);
             }
         }
 

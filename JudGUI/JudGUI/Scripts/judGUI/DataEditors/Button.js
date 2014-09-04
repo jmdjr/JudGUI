@@ -1,5 +1,5 @@
 ﻿
-define(['jquery', 'Util/Utils'], function ($) {
+define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
 
     (function (scope) {
         var judgui = scope.judgui || {};
@@ -7,13 +7,13 @@ define(['jquery', 'Util/Utils'], function ($) {
     /********               Buttons used on dialogue display        *************/
     /****************************************************************************/
 
-
         var Button = function (text, value, style, clickEvent) {
             this.initialize(text, value, style, clickEvent);
         }
 
-        var p = Button.prototype = new createjs.Container();
-        Button.prototype.inherited_init = p.initialize;
+        var p = Button.prototype = new judgui.DataEditorObject();
+        Button.prototype.DataEditorObject_initialize = p.initialize;
+
 
         Button._Spawner = function (initializerObject) {
             var o = initializerObject || {};
@@ -123,18 +123,17 @@ define(['jquery', 'Util/Utils'], function ($) {
             else {
                 this.updateCache();
             }
-
         }
 
-        p.position = function (x, y) {
-            this.x = x;
-            this.y = y;
-
-            return this;
+        p.onFocus = function (e) {
+            if (this._clickCallback && e.nativeEvent.button == 0) {
+                e.Button = this;
+                this._clickCallback(e);
+            }
         }
 
         p.initialize = function (text, value, style, clickEvent) {
-            if (this.inherited_init) this.inherited_init();
+            if (this.DataEditorObject_initialize) this.DataEditorObject_initialize();
 
             $.extend(true, this.Style, style);
             text = text || "Default";
@@ -154,12 +153,6 @@ define(['jquery', 'Util/Utils'], function ($) {
             this._Text = new createjs.Text(s.font);
             this.addChild(this._Text);
 
-            this.on('click', function (e) {
-                if (this._clickCallback && e.nativeEvent.button == 0) {
-                    e.Button = this;
-                    this._clickCallback(e);
-                }
-            }, this);
 
             // calls necessary rendering and caching functions.
             this.Text(text);

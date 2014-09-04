@@ -47,7 +47,8 @@
             width: 150
         }
 
-        var buttonProps = function (text, value, style, x, y) {
+        var buttonProps = function (frame, text, value, style, x, y) {
+            var $_Frame = frame;
             return {
                 text: text,
                 value: value,
@@ -60,7 +61,14 @@
                                 backgroundColor: judgui.Random.color(),
                                 borderColor: judgui.Random.color()
                             });
-                        break;
+                            break;
+
+                        case 'MainMenu':
+                            var FC = $_Frame.FrameCollection();
+                            if (FC) {
+                                FC.goto('MainMenu');
+                            }
+                            break;
                     }
                 },
                 x: x,
@@ -69,7 +77,8 @@
         }
 
         p.initialize = function () {
-            this.add('Button', buttonProps('Randomize Button Colors', 'change button colors', ButtonStyle3, 200, 200));
+            this.add('Button', buttonProps(this, 'Randomize Button Colors', 'change button colors', ButtonStyle3, 200, 200));
+            this.add('Button', buttonProps(this, 'Back to Menu', 'MainMenu', ButtonStyle, 650, 550));
         };
 
         Example.Buttons = Buttons;

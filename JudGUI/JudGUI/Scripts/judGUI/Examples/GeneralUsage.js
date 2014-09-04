@@ -1,4 +1,4 @@
-﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons', 'Frames/Debuggable'], function ($) {
+﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'DataEditors/TextField', 'Examples/GeneralButtons', 'Frames/Debuggable'], function ($) {
     $(function () {
         var Windows = new judgui.FrameEngine(600, 800);
         var MenusFC = Windows.NewFrameCollection('Menus', true);
@@ -8,6 +8,19 @@
             font: "12px Arial",
             color: "#FFFFFF",
             textAlign: "center",
+            textBaseline: "middle",
+            borderRadius: 0,
+            borderWidth: 5,
+            borderColor: "#FF0000",
+            backgroundColor: "#000000",
+            height: 30,
+            width: 125
+        }
+
+        var MenuTextFieldStyle = {
+            font: "12px Arial",
+            color: "#FFFFFF",
+            textAlign: "left",
             textBaseline: "middle",
             borderRadius: 0,
             borderWidth: 5,
@@ -38,6 +51,13 @@
             style: MenuButtonStyle,
             clickEvent: buttonClick,
             x: 100,
+            y: 100
+        });
+
+        MainMenu.add('TextField', {
+            text: 'Click to type',
+            style: null,
+            x: 300,
             y: 100
         });
 

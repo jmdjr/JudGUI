@@ -51,6 +51,9 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], fun
             return false;
         }
 
+        p.FrameCollection = function () {
+            return this.parent;
+        }
 
         judgui.Frame = Frame;
         scope.judgui = judgui;
