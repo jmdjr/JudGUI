@@ -30,7 +30,17 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         };
 
         p.updateText = function (e) {
-            debugger;
+            var keycode = e.rawEvent.keyCode;
+            var text = this._Text.text;
+
+            if (keycode == 8) {
+                text = text.slice(0, text.length - 1);
+            }
+            else {
+                text += String.fromCharCode(keycode);
+            }
+
+            this.Text(text);
         }
 
 
