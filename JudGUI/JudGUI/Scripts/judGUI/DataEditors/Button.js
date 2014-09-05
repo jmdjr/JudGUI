@@ -14,7 +14,6 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
         var p = Button.prototype = new judgui.DataEditorObject();
         Button.prototype.DataEditorObject_initialize = p.initialize;
 
-
         Button._Spawner = function (initializerObject) {
             var o = initializerObject || {};
             return new Button(o['text'], o['value'], o['style'], o['clickEvent']).position(o['x'], o['y']);
@@ -43,7 +42,7 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
             width: 125
         }
 
-        p.Style = $.extend(true, {}, DefaultStyle);
+        p.Style = null;
 
         p.Text = function (text) {
             if (text) {
@@ -54,7 +53,7 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
             return this._Text.text;
         }
         p.UpdateStyle = function (style) {
-            $.extend(true, this.Style, style);
+            this.Style = $.extend(true, this.Style, style);
             this._drawButton();
         }
         // call this only when button NEEDS to be re-rendered, as in on initialize and style updates.
@@ -134,8 +133,7 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
 
         p.initialize = function (text, value, style, clickEvent) {
             if (this.DataEditorObject_initialize) this.DataEditorObject_initialize();
-
-            $.extend(true, this.Style, style);
+            this.Style = $.extend(true, {}, DefaultStyle, style);
             text = text || "Default";
             value = value || 0;
             clickEvent = clickEvent || function () { };

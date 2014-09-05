@@ -4,8 +4,12 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
     (function (scope) {
         var judgui = scope.judgui || {};
         /****************************************************************************/
-        /********               Buttons used on dialogue display        *************/
+        /********                        Text Field                     *************/
+        /********                   still in development                *************/
         /****************************************************************************/
+        // as far as I know, I am not going to be able to make the keyboard appear with
+        // this process.
+
         var TextField = function () {
             this.initialize();
         }
@@ -18,31 +22,46 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             return new TextField(o['text'], o['style']).position(o['x'], o['y']);
         }
 
-        p._Text = null;
         p._cursorInterval = null;
+        p._Text = null;
+        p._Graphic = null;
+        p._Cursor = null;
+        p._Text = null;
+        p.Style = null;
 
         p.onFocus = function (e) {
             if (this._cursorInterval == null) {
                 this._cursorInterval = setInterval(function (context) { context._toggleCursor(); }, 500, this);
             }
 
-            this.on('focus.keydown', function (e) { this.updateText(e); }, this);
+            this.removeAllEventListeners('focus.keypress');
+            this.on('focus.keypress', function (e) { this.updateText(e); }, this);
+            this.removeAllEventListeners('focus.keydown');
+            this.on('focus.keydown', function (e) { this.deleteText(e); }, this);
         };
 
         p.updateText = function (e) {
             var keycode = e.rawEvent.keyCode;
             var text = this._Text.text;
+            text += String.fromCharCode(keycode);
+            this.Text(text);
+        }
+
+        p.deleteText = function (e) {
+            var keycode = e.rawEvent.keyCode;
+            var text = this._Text.text;
 
             if (keycode == 8) {
-                text = text.slice(0, text.length - 1);
-            }
-            else {
-                text += String.fromCharCode(keycode);
+                if (text.length == 1) {
+                    text = '';
+                }
+                else {
+                    text = text.slice(0, text.length - 1);
+                }
             }
 
             this.Text(text);
         }
-
 
         p.onBlur = function (e) {
             clearInterval(this._cursorInterval);
@@ -55,10 +74,6 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this._Cursor.alpha = (this._Cursor.alpha + 1) % 2;
             this._draw();
         };
-
-        p._Graphic = null;
-        p._Cursor = null;
-        p._Text = null;
 
         // The style of the button, 
         var DefaultStyle = {
@@ -74,13 +89,11 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             paddingTop: 5,
             paddingBottom: 5,
             height: 30,
-            width: 125
+            width: 250
         }
 
-        p.Style = $.extend(true, {}, DefaultStyle);
-
         p.Text = function (text) {
-            if (text) {
+            if (text != null) {
                 this._Text.text = text;
                 this._draw();
             }
@@ -135,19 +148,23 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
 
             var CursorPos = {
                 X: s.paddingLeft + s.borderWidth,
-                Y: s.paddingBottom + s.borderWidth
+                Y: s.paddingBottom + s.borderWidth + 2
             }
 
             var linewidth = s.width - (Pos.X + s.paddingRight + s.borderWidth);
 
-            var textWidth = this._Text.getMeasuredWidth();
+            var textWidth = this._Text.getBounds();
+
+            if (textWidth != null) {
+                textWidth = textWidth.width;
+            }
 
             if (textWidth > linewidth) {
-                Pos.X += linewidth - textWidth - s.paddingRight - s.borderWidth - 1;
+                Pos.X += linewidth - textWidth;
                 CursorPos.X = linewidth;
             }
             else {
-                CursorPos.X += textWidth + Pos.X;
+                CursorPos.X = textWidth;
             }
 
             this._Text.x = Pos.X;
@@ -155,18 +172,25 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this._Text.font = s.font;
             t.color = s.color;
 
-            this._Cursor.graphics
-                .mt(CursorPos.X, CursorPos.Y)
-                .ss(1)
-                .s(s.color)
-                .lt(CursorPos.X, CursorPos.Y + s.fontSize);
+            if (!this._Cursor.isDrawn) {
+                this._Cursor.isDrawn = true;
+                this._Cursor.y = CursorPos.Y;
+                this._Cursor.graphics
+                    .mt(s.paddingLeft + 3, 0)
+                    .ss(1)
+                    .s(s.color)
+                    .lt(s.paddingLeft + 3, s.fontSize);
+
+                this._Cursor.isDrawn = true;
+            }
+
+            this._Cursor.x = CursorPos.X;
         }
 
         p.initialize = function (text, style) {
             if (this.DataEditorObject_initialize) this.DataEditorObject_initialize();
-
-            $.extend(true, this.Style, style);
-            text = text || "Testing";
+            this.Style = $.extend(true, {}, DefaultStyle, style);
+            text = text || "";
 
             var s = this.Style;
 
@@ -182,10 +206,9 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this._Text = new createjs.Text(s.font);
             this.addChild(this._Text);
 
-            // calls necessary rendering and caching functions.
-            this.Text(text);
-
+            this._Text.text = text;
             this._Cursor.alpha = 0;
+            this._Cursor.isDrawn = false;
             this._draw();
 
             return this;
