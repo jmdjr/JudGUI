@@ -56,7 +56,7 @@
                 clickEvent: function (event) {
                     switch (event.Button._Value) {
                         case 'change button colors':
-                            event.Button.UpdateStyle({
+                            event.Button.Style({
                                 color: judgui.Random.color(),
                                 backgroundColor: judgui.Random.color(),
                                 borderColor: judgui.Random.color()

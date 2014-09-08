@@ -23,11 +23,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         }
 
         p._cursorInterval = null;
-        p._Text = null;
-        p._Graphic = null;
         p._Cursor = null;
-        p._Text = null;
-        p.Style = null;
 
         p.onFocus = function (e) {
             if (this._cursorInterval == null) {
@@ -35,8 +31,9 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             }
 
             this.removeAllEventListeners('focus.keypress');
-            this.on('focus.keypress', function (e) { this.updateText(e); }, this);
             this.removeAllEventListeners('focus.keydown');
+
+            this.on('focus.keypress', function (e) { this.updateText(e); }, this);
             this.on('focus.keydown', function (e) { this.deleteText(e); }, this);
         };
 
@@ -75,67 +72,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this._draw();
         };
 
-        // The style of the button, 
-        var DefaultStyle = {
-            font: "15px Arial",
-            fontSize: 15,
-            color: "#000000",
-            borderRadius: 0,
-            borderWidth: 1,
-            borderColor: "#000000",
-            backgroundColor: "#FFFFFF",
-            paddingLeft: 5,
-            paddingRight: 5,
-            paddingTop: 5,
-            paddingBottom: 5,
-            height: 30,
-            width: 250
-        }
-
-        p.Text = function (text) {
-            if (text != null) {
-                this._Text.text = text;
-                this._draw();
-            }
-
-            return this._Text.text;
-        }
-
-        p.UpdateStyle = function (style) {
-            $.extend(true, this.Style, style);
-            this._draw();
-        }
-
-        // call this only when button NEEDS to be re-rendered, as in on initialize and style updates.
-        p._draw = function () {
-            var b = this.bounds = this.bounds || this.getBounds();
-            var s = this.Style;
-            if (s.borderWidth == 0) {
-                this._Graphic.graphics
-                .f(s.backgroundColor)
-                .rr(b.x, b.y, s.width, s.height, s.borderRadius);
-            }
-            else {
-                this._Graphic.graphics
-                .ss(s.borderWidth)
-                .s(s.borderColor)
-                .f(s.backgroundColor)
-                .rr(b.x, b.y, s.width, s.height, s.borderRadius);
-            }
-
-            this._drawTextAndCursor(s, b);
-
-            if (this.cacheCanvas == null) {
-                // no cache active, initialze cache.
-                this.cache(0, 0, b.width, b.height);
-            }
-            else {
-                this.updateCache();
-            }
-        }
-
-        p._drawTextAndCursor = function (s, b) {
-
+        p._drawText = function (s, b) {
             var textBounds = this._Text.getBounds();
             var t = this._Text;
             t.textAlign = 'left';
@@ -152,7 +89,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             }
 
             var linewidth = s.width - (Pos.X + s.paddingRight + s.borderWidth);
-
+            debugger;
             var textWidth = this._Text.getBounds();
 
             if (textWidth != null) {
@@ -173,7 +110,6 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             t.color = s.color;
 
             if (!this._Cursor.isDrawn) {
-                this._Cursor.isDrawn = true;
                 this._Cursor.y = CursorPos.Y;
                 this._Cursor.graphics
                     .mt(s.paddingLeft + 3, 0)
@@ -188,25 +124,11 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         }
 
         p.initialize = function (text, style) {
-            if (this.DataEditorObject_initialize) this.DataEditorObject_initialize();
-            this.Style = $.extend(true, {}, DefaultStyle, style);
-            text = text || "";
+            if (this.DataEditorObject_initialize) this.DataEditorObject_initialize(text, style, true, true);
 
-            var s = this.Style;
-
-            this.setBounds(0, 0, s.width, s.height);
-            this.bounds = this.getBounds();
-
-            this._Graphic = new createjs.Shape();
-            this.addChild(this._Graphic);
-
-            p._Cursor = new createjs.Shape();
+            this._Cursor = new createjs.Shape();
             this.addChild(this._Cursor);
 
-            this._Text = new createjs.Text(s.font);
-            this.addChild(this._Text);
-
-            this._Text.text = text;
             this._Cursor.alpha = 0;
             this._Cursor.isDrawn = false;
             this._draw();
