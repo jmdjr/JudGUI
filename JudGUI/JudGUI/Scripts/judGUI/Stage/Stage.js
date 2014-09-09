@@ -62,7 +62,7 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
             this._Stage.setBounds(0, 0, this._Canvas.width, this._Canvas.height);
             this.bounds = this._Stage.getBounds();
 
-            createjs.Ticker.setFPS(30);
+            createjs.Ticker.setFPS(60);
             createjs.Ticker.addEventListener('tick', this._Stage);
 
             var $_Stage = this._Stage;
