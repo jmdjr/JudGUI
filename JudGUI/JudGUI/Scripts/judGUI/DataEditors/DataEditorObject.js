@@ -21,7 +21,8 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
 
         // The style of the button, 
         var DefaultStyle = {
-            font: "15px Arial",
+            font: "Arial",
+            fontSize: 15,
             color: "#000000",
             textAlign: "center",
             textBaseline: "middle",
@@ -38,7 +39,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
         }
 
         p.Text = function (text) {
-            if (text) {
+            if (!judgui.IsUndefined(text)) {
                 this._Text.text = text;
                 this._draw();
             }
@@ -47,10 +48,10 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
         }
 
         p.Style = function (style) {
-            this._Style = $.extend(true, this._Style, style);
+            this._Style = $.extend(true, {}, this._Style, style);
             this._draw();
         }
-
+        p.FontStyle = function () { return this._Style.fontSize + "px " + this._Style.font; }
         p.initialize = function (text, style, addText, addGraphic) {
             if (this.Container_init) this.Container_init();
 
@@ -67,7 +68,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             }
 
             if (this._TextIncluded) {
-                this._Text = new createjs.Text(s.font);
+                this._Text = new createjs.Text(this.FontStyle());
                 this.addChild(this._Text);
                 this._Text.text = text;
             }
@@ -129,18 +130,18 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
         }
 
         p._drawGraphic = function (s, b) {
-            if (s.borderWidth == 0) {
-                this._Graphic.graphics
-                .f(s.backgroundColor)
-                .rr(b.x, b.y, s.width, s.height, s.borderRadius);
+            var g = this._Graphic.graphics;
+
+            if (s.backgroundColor != "none") {
+                g.f(s.backgroundColor);
             }
-            else {
-                this._Graphic.graphics
-                .ss(s.borderWidth)
-                .s(s.borderColor)
-                .f(s.backgroundColor)
-                .rr(b.x, b.y, s.width, s.height, s.borderRadius);
+
+            if (s.borderWidth != 0) {
+                g.ss(s.borderWidth);
+                g.s(s.borderColor);
             }
+
+            g.rr(b.x, b.y, s.width, s.height, s.borderRadius);
         }
 
         p._drawText = function (s, b) {
@@ -182,7 +183,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
 
             this._Text.x = xPos;
             this._Text.y = yPos;
-            this._Text.font = s.font;
+            this._Text.font = this.FontStyle();
             t.color = s.color;
         }
 

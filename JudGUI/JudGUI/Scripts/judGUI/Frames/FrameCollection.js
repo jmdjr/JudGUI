@@ -7,12 +7,12 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        var FrameCollection = function (name) {
-            this.initialize(name);
+        var FrameCollection = function (style, name) {
+            this.initialize(style, name);
         }
 
-        var p = FrameCollection.prototype = new createjs.Container();
-        FrameCollection.prototype.inherited_init = FrameCollection.initialize;
+        var p = FrameCollection.prototype = new judgui.BackgroundContainer();
+        p.BackgroundContainer_initialize = p.initialize;
 
         p.bounds = null;
 
@@ -20,8 +20,8 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
         p.isPaused = false;
         p.runningFrame = null;
 
-        p.initialize = function (name) {
-            if (this.inherited_init) this.inherited_init();
+        p.initialize = function (style, name) {
+            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
 
             this.Frames = new judgui.HashTable();
             this.isPaused = false;
@@ -30,7 +30,6 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
 
             // adds transition functionality.
             judgui.MakeTransitionable.call(this);
-            judgui.MakeFramingBackground.call(this);
 
             return this;
         }
@@ -111,6 +110,12 @@ define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function 
             if (!this.isPaused && !judgui.IsUndefined(this.runningFrame)) {
                 this.runningFrame.update();
             }
+        }
+
+        p.position = function(x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
         }
 
         judgui.FrameCollection = FrameCollection;

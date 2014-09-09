@@ -1,15 +1,16 @@
-﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/Button', 'Examples/GeneralButtons', 'Util/UtilityPieces'], function ($) {
+﻿define(['jquery', 'Frames/FrameEngine', 'DataEditors/AllControls', 'Util/UtilityPieces'], function ($) {
     (function (scope) {
         var Example = scope.Example || {};
 
-        var Buttons = function () {
-            this.initialize();
+        var Buttons = function (style) {
+            this.initialize(style);
         }
 
         var p = Buttons.prototype = new scope.judgui.Frame();
 
         var ButtonStyle = {
-            font: "12px Arial",
+            font: "Arial",
+            fontSize: 12,
             color: "#FFFFFF",
             textAlign: "center",
             textBaseline: "middle",
@@ -22,7 +23,8 @@
         }
 
         var ButtonStyle2 = {
-            font: "8px Times New Roman",
+            font: "Times New Roman",
+            fontSize: 8,
             color: "#FF0000",
             textAlign: "left",
             textBaseline: "top",
@@ -35,7 +37,8 @@
         }
 
         var ButtonStyle3 = {
-            font: "24px Comic Sans",
+            font: "Comic Sans",
+            fontSize: 24,
             color: "#000000",
             textAlign: "center",
             textBaseline: "top",
@@ -76,9 +79,10 @@
             };
         }
 
-        p.initialize = function () {
+        p.initialize = function (style) {
             this.add('Button', buttonProps(this, 'Randomize Button Colors', 'change button colors', ButtonStyle3, 200, 200));
             this.add('Button', buttonProps(this, 'Back to Menu', 'MainMenu', ButtonStyle, 650, 550));
+            this.ExtendStyle(style);
         };
 
         Example.Buttons = Buttons;

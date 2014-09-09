@@ -60,10 +60,13 @@
     <Content Include="default.html" />
     <Content Include="Scripts\judGUI\DataEditors\Button.js" />
     <Content Include="Scripts\judGUI\DataEditors\DataEditorObject.js" />
+    <Content Include="Scripts\judGUI\DataEditors\AllControls.js" />
     <Content Include="Scripts\judGUI\DataEditors\TextLabel.js" />
     <Content Include="Scripts\judGUI\DataEditors\TextField.js" />
+    <Content Include="Scripts\judGUI\Examples\AllMenus.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralButtons.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralUsage.js" />
+    <Content Include="Scripts\judGUI\Examples\MainMenu.js" />
     <Content Include="Scripts\judGUI\Frames\Backgrounds.js" />
     <Content Include="Scripts\judGUI\Frames\Debuggable.js" />
     <Content Include="Scripts\judGUI\Frames\Frame.js" />

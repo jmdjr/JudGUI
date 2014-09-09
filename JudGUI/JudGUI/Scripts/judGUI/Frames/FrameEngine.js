@@ -7,12 +7,12 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        var FrameEngine = function (height, width, target) {
-            this.initialize(height, width, target);
+        var FrameEngine = function (height, width, target, style) {
+            this.initialize(height, width, target, style);
         }
 
-        var p = FrameEngine.prototype = new createjs.Container();
-        FrameEngine.prototype.inherited_init = FrameEngine.initialize;
+        var p = FrameEngine.prototype = new judgui.BackgroundContainer();
+        p.BackgroundContainer_initialize = p.initialize;
 
         p.Stage = null;
 
@@ -20,11 +20,43 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
         p._RunningFrameCollections = null;
         p.bounds = null;
 
-        p.NewFrameCollection = function (name, autoStart) {
-            var fc = new judgui.FrameCollection(name);
+        p.initialize = function (height, width, target, style) {
+            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
+
+            this._FrameCollections = new judgui.HashTable();
+            this._RunningFrameCollections = new judgui.HashTable();
+
+            this.Stage = new judgui.Stage(height, width, target);
+            this.setBounds(0, 0, this.Stage.bounds.width, this.Stage.bounds.height);
+            this.bounds = this.getBounds();
+
+            this.on('tick', function () {
+
+                this._RunningFrameCollections.forEach(function (item) {
+                    item = this._RunningFrameCollections[item];
+
+                    if (!this.contains(item)) {
+                        this.addChild(item);
+                    }
+
+                    item.update();
+                }, this);
+            }, this);
+
+            this.Stage.addChild(this);
+            this.SetEngine(this);
+            return this;
+        }
+
+        p.NewFrameCollection = function (name, autoStart, style) {
+            if (judgui.IsUndefined(style)) {
+                style = null;
+            }
+
+            var fc = new judgui.FrameCollection(style, name);
 
             this._FrameCollections.push(name, fc);
-            this._FrameCollections[name].Engine = this;
+            this._FrameCollections[name].SetEngine(this);
 
             if (autoStart) {
                 this._RunningFrameCollections.push(name, fc);
@@ -66,34 +98,6 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
             }
 
             return null;
-        }
-
-        p.initialize = function (height, width, target) {
-
-            this._FrameCollections = new judgui.HashTable();
-            this._RunningFrameCollections = new judgui.HashTable();
-
-            this.Stage = new judgui.Stage(height, width, target);
-            this.setBounds(0, 0, this.Stage.bounds.width, this.Stage.bounds.height);
-            this.bounds = this.getBounds();
-
-            if (this.inherited_init) this.inherited_init();
-
-            this.on('tick', function () {
-                this._RunningFrameCollections.forEach(function (item) {
-                    item = this._RunningFrameCollections[item];
-
-                    if (!this.contains(item)) {
-                        this.addChild(item);
-                    }
-
-                    item.update();
-                }, this);
-            }, this);
-
-            this.Stage.addChild(this);
-
-            return this;
         }
 
         judgui.FrameEngine = FrameEngine;

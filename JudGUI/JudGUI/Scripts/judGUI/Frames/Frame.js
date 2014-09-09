@@ -7,20 +7,19 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], fun
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        var Frame = function (design, initializer) {
-            this.initialize(design, initializer);
+        var Frame = function (style, initializer) {
+            this.initialize(style, initializer);
         }
 
-        var p = Frame.prototype = new createjs.Container();
-        Frame.prototype.inherited_init = p.initialize;
+        var p = Frame.prototype = new judgui.BackgroundContainer();
+        p.BackgroundContainer_initialize = p.initialize;
 
         p.bounds = null;
 
-        p.initialize = function (design, initializer) {
-            if (this.inherited_init) this.inherited_init();
+        p.initialize = function (style, initializer) {
+            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
 
             judgui.MakeTransitionable.call(this);
-            judgui.MakeFramingBackground.call(this);
 
             this.bounds = this.getBounds();
 

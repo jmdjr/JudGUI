@@ -8,10 +8,10 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         /********                   still in development                *************/
         /****************************************************************************/
         // as far as I know, I am not going to be able to make the keyboard appear with
-        // this process.
+        // this process.  but one can be made from buttons easily enough.
 
-        var TextField = function () {
-            this.initialize();
+        var TextField = function (text, style) {
+            this.initialize(text, style);
         }
         
         var p = TextField.prototype = new judgui.DataEditorObject();
@@ -33,31 +33,47 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this.removeAllEventListeners('focus.keypress');
             this.removeAllEventListeners('focus.keydown');
 
-            this.on('focus.keypress', function (e) { this.updateText(e); }, this);
-            this.on('focus.keydown', function (e) { this.deleteText(e); }, this);
+            this.on('focus.keypress', function (e) { this.keyPress(e); }, this);
+            this.on('focus.keydown', function (e) { this.keyDown(e); }, this);
         };
 
-        p.updateText = function (e) {
-            var keycode = e.rawEvent.keyCode;
-            var text = this._Text.text;
-            text += String.fromCharCode(keycode);
-            this.Text(text);
-        }
-
-        p.deleteText = function (e) {
+        p.keyPress = function (e) {
             var keycode = e.rawEvent.keyCode;
             var text = this._Text.text;
 
-            if (keycode == 8) {
-                if (text.length == 1) {
-                    text = '';
-                }
-                else {
-                    text = text.slice(0, text.length - 1);
-                }
+            // future development, additional functions for other key codes.
+            switch (keycode) {
+                default:
+                    text = this._addText(keycode, text);
+                    break;
             }
 
             this.Text(text);
+        }
+
+        p.keyDown = function (e) {
+            var keycode = e.rawEvent.keyCode;
+            var text = this._Text.text;
+
+            // future development, additional functions for other key codes.
+            switch(keycode) {
+                case 8: // delete key code
+                    text = this._deleteText(text);
+                    break;
+
+                default:
+                    break;
+            }
+
+            this.Text(text);
+        }
+
+        p._deleteText = function (text) {
+            return text.length <= 1 ? '' : text.slice(0, text.length - 1);
+        }
+
+        p._addText = function (keycode, text) {
+            return text + String.fromCharCode(keycode);
         }
 
         p.onBlur = function (e) {
@@ -73,8 +89,8 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         };
 
         p._drawText = function (s, b) {
-            var textBounds = this._Text.getBounds();
             var t = this._Text;
+            this._Text.font = this.FontStyle();
             t.textAlign = 'left';
             t.textBaseline = 'middle';
 
@@ -85,11 +101,10 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
 
             var CursorPos = {
                 X: s.paddingLeft + s.borderWidth,
-                Y: s.paddingBottom + s.borderWidth + 2
+                Y: Pos.Y / 2
             }
 
             var linewidth = s.width - (Pos.X + s.paddingRight + s.borderWidth);
-            debugger;
             var textWidth = this._Text.getBounds();
 
             if (textWidth != null) {
@@ -98,39 +113,34 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
 
             if (textWidth > linewidth) {
                 Pos.X += linewidth - textWidth;
-                CursorPos.X = linewidth;
+                CursorPos.X += linewidth;
             }
             else {
-                CursorPos.X = textWidth;
+                CursorPos.X += textWidth;
             }
 
             this._Text.x = Pos.X;
             this._Text.y = Pos.Y;
-            this._Text.font = s.font;
             t.color = s.color;
 
-            if (!this._Cursor.isDrawn) {
-                this._Cursor.y = CursorPos.Y;
-                this._Cursor.graphics
-                    .mt(s.paddingLeft + 3, 0)
-                    .ss(1)
-                    .s(s.color)
-                    .lt(s.paddingLeft + 3, s.fontSize);
-
-                this._Cursor.isDrawn = true;
-            }
-
+            this._Cursor.y = CursorPos.Y;
             this._Cursor.x = CursorPos.X;
         }
 
         p.initialize = function (text, style) {
+
             if (this.DataEditorObject_initialize) this.DataEditorObject_initialize(text, style, true, true);
 
             this._Cursor = new createjs.Shape();
             this.addChild(this._Cursor);
 
+            this._Cursor.graphics
+                .mt(0, 0)
+                .ss(1)
+                .s(this._Style.color)
+                .lt(0, this._Style.fontSize);
+
             this._Cursor.alpha = 0;
-            this._Cursor.isDrawn = false;
             this._draw();
 
             return this;
