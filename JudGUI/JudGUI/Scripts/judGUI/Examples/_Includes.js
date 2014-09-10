@@ -1,0 +1,1 @@
+﻿define(['_Include_JudGUI', 'Examples/AllMenus'], function ($) { });

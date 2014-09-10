@@ -1,2 +1,2 @@
 ﻿// Groups all Examples together
-define(['Examples/GeneralButtons', 'Examples/MainMenu'], function ($) { });
+define(['Examples/_Styles', 'Examples/GeneralButtons', 'Examples/MainMenu', 'Examples/Sidebar/PropertiesSidebar'], function ($) { });

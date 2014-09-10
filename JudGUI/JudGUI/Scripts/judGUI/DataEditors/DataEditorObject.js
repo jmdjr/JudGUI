@@ -18,6 +18,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
         p._Text = null;
         p._TextIncluded = true;
         p._GraphicIncluded = true;
+        p._Disabled = false;
 
         // The style of the button, 
         var DefaultStyle = {
@@ -30,6 +31,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             borderWidth: 1,
             borderColor: "#000000",
             backgroundColor: "#FFFFFF",
+            disabledBackgroundColor: "#888888",
             paddingLeft: 5,
             paddingRight: 5,
             paddingTop: 5,
@@ -38,20 +40,6 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             width: 125
         }
 
-        p.Text = function (text) {
-            if (!judgui.IsUndefined(text)) {
-                this._Text.text = text;
-                this._draw();
-            }
-
-            return this._Text.text;
-        }
-
-        p.Style = function (style) {
-            this._Style = $.extend(true, {}, this._Style, style);
-            this._draw();
-        }
-        p.FontStyle = function () { return this._Style.fontSize + "px " + this._Style.font; }
         p.initialize = function (text, style, addText, addGraphic) {
             if (this.Container_init) this.Container_init();
 
@@ -82,6 +70,34 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             }, this);
 
             this.on('blur', this._blur);
+        }
+
+        p.Text = function (text) {
+            if (!judgui.IsUndefined(text)) {
+                this._Text.text = text;
+                this._draw();
+            }
+
+            return this._Text.text;
+        }
+
+        p.Style = function (style) {
+            this._Style = $.extend(true, {}, this._Style, style);
+            this._draw();
+        }
+
+        p.FontStyle = function () {
+            return this._Style.fontSize + "px " + this._Style.font;
+        }
+
+        p.Disable = function () {
+            this._Disabled = true;
+            this._draw();
+        }
+
+        p.Enable = function () {
+            this._Disabled = false;
+            this._draw();
         }
 
         p.position = function (x, y) {
@@ -133,7 +149,8 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             var g = this._Graphic.graphics;
 
             if (s.backgroundColor != "none") {
-                g.f(s.backgroundColor);
+
+                g.f(this._Disabled ? s.disabledBackgroundColor: s.backgroundColor);
             }
 
             if (s.borderWidth != 0) {

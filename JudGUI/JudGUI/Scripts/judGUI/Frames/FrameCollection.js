@@ -3,7 +3,7 @@
       Engine Construct for Frames and States, since these two contain similar functionality.
 *********************************************************************************************/
 
-define(['jquery', 'Util/Utils', 'Frames/Frame', 'Frames/Transitions'], function ($) {
+define(['jquery', 'Frames/Frame'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 

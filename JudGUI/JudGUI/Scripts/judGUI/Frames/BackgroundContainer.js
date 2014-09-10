@@ -31,7 +31,6 @@ define(['jquery'], function ($) {
 
             this._Graphic = new createjs.Shape();
             this.addChild(this._Graphic);
-
         }
 
         p.ExtendStyle = function (style) {

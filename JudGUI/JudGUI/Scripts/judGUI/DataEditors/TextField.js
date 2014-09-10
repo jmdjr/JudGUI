@@ -11,6 +11,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         // this process.  but one can be made from buttons easily enough.
 
         var TextField = function (text, style) {
+            this.name = "TextField";
             this.initialize(text, style);
         }
         
@@ -24,6 +25,24 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
 
         p._cursorInterval = null;
         p._Cursor = null;
+
+        p.initialize = function (text, style) {
+            if (this.DataEditorObject_initialize) this.DataEditorObject_initialize(text, style, true, true);
+
+            this._Cursor = new createjs.Shape();
+            this.addChild(this._Cursor);
+
+            this._Cursor.graphics
+                .mt(0, 0)
+                .ss(1)
+                .s(this._Style.color)
+                .lt(0, this._Style.fontSize);
+
+            this._Cursor.alpha = 0;
+            this._draw();
+
+            return this;
+        }
 
         p.onFocus = function (e) {
             if (this._cursorInterval == null) {
@@ -68,6 +87,13 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this.Text(text);
         }
 
+        p.onBlur = function (e) {
+            clearInterval(this._cursorInterval);
+            this._cursorInterval = null;
+            this._Cursor.alpha = 0;
+            this._draw();
+        };
+        
         p._deleteText = function (text) {
             return text.length <= 1 ? '' : text.slice(0, text.length - 1);
         }
@@ -75,13 +101,6 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         p._addText = function (keycode, text) {
             return text + String.fromCharCode(keycode);
         }
-
-        p.onBlur = function (e) {
-            clearInterval(this._cursorInterval);
-            this._cursorInterval = null;
-            this._Cursor.alpha = 0;
-            this._draw();
-        };
         
         p._toggleCursor = function () {
             this._Cursor.alpha = (this._Cursor.alpha + 1) % 2;
@@ -125,25 +144,6 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
 
             this._Cursor.y = CursorPos.Y;
             this._Cursor.x = CursorPos.X;
-        }
-
-        p.initialize = function (text, style) {
-
-            if (this.DataEditorObject_initialize) this.DataEditorObject_initialize(text, style, true, true);
-
-            this._Cursor = new createjs.Shape();
-            this.addChild(this._Cursor);
-
-            this._Cursor.graphics
-                .mt(0, 0)
-                .ss(1)
-                .s(this._Style.color)
-                .lt(0, this._Style.fontSize);
-
-            this._Cursor.alpha = 0;
-            this._draw();
-
-            return this;
         }
 
         judgui.TextField = TextField;

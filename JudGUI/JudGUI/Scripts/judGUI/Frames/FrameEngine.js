@@ -3,7 +3,7 @@
         Engine Constructor
 *********************************************************************************************/
 
-define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames/Transitions'], function ($) {
+define(['jquery', 'Frames/FrameCollection', 'Stage/Stage'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
@@ -98,6 +98,14 @@ define(['jquery', 'Util/Utils', 'Frames/FrameCollection', 'Stage/Stage', 'Frames
             }
 
             return null;
+        }
+
+        p.GetFrameCollection = function (name) {
+            return this._FrameCollections[name];
+        }
+
+        p.GetFrameCollections = function () {
+            return this._FrameCollections;
         }
 
         judgui.FrameEngine = FrameEngine;

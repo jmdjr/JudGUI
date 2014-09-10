@@ -3,7 +3,7 @@
         Frame Constructor
 *********************************************************************************************/
 
-define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/Backgrounds'], function ($) {
+define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/BackgroundContainer'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 

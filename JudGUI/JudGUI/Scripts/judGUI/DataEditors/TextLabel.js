@@ -9,6 +9,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         /****************************************************************************/
 
         var TextLabel = function (text, style) {
+            this.name = "TextLabel";
             this.initialize(text, style);
         }
 
@@ -27,6 +28,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         p.initialize = function (text, style) {
 
             var labelDefaults = {
+                textAlign: 'left',
                 backgroundColor: "none",
                 borderWidth: 0
             };

@@ -60,14 +60,17 @@
     <Content Include="default.html" />
     <Content Include="Scripts\judGUI\DataEditors\Button.js" />
     <Content Include="Scripts\judGUI\DataEditors\DataEditorObject.js" />
-    <Content Include="Scripts\judGUI\DataEditors\AllControls.js" />
+    <Content Include="Scripts\judGUI\DataEditors\_Include_DataEditors.js" />
     <Content Include="Scripts\judGUI\DataEditors\TextLabel.js" />
     <Content Include="Scripts\judGUI\DataEditors\TextField.js" />
     <Content Include="Scripts\judGUI\Examples\AllMenus.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralButtons.js" />
     <Content Include="Scripts\judGUI\Examples\GeneralUsage.js" />
+    <Content Include="Scripts\judGUI\Examples\_Includes.js" />
+    <Content Include="Scripts\judGUI\Examples\_Styles.js" />
     <Content Include="Scripts\judGUI\Examples\MainMenu.js" />
-    <Content Include="Scripts\judGUI\Frames\Backgrounds.js" />
+    <Content Include="Scripts\judGUI\Examples\Sidebar\PropertiesSidebar.js" />
+    <Content Include="Scripts\judGUI\Frames\BackgroundContainer.js" />
     <Content Include="Scripts\judGUI\Frames\Debuggable.js" />
     <Content Include="Scripts\judGUI\Frames\Frame.js" />
     <Content Include="Scripts\judGUI\Frames\FrameCollection.js" />
@@ -80,6 +83,7 @@
     <Content Include="Scripts\judGUI\Util\Hash.js" />
     <Content Include="Scripts\judGUI\Util\UtilityPieces.js" />
     <Content Include="Scripts\judGUI\Util\Utils.js" />
+    <Content Include="Scripts\judGUI\_Include_JudGUI.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
