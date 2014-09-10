@@ -4,9 +4,17 @@ JudGUI
 a collection of UI Elements built on the CreateJS Framework
 
 This project is my attempt at creating a collection of controls people can use when implementing thier own applications using 
-CreateJS.  The central control is the FrameEngine.  This control, along with many other controls, will simplify the construction
-of windows or screens, for visual separation, as well as minute control over transitioning between "Frames" which are simply
-Special Canvas elements.
+the ever versital CreateJS suite!  
+
+These controls are built around my custom framework which should simplify the process of creating interactive menus and applications, so that you can focus on building the fun stuff.
+
+the framework is about... frames... YES, FRAMES! frames are to be thought of as the visible menu at that point in time. All the buttons, drop down menus and other controls belong in a frame. Frames have shortcut functions which allow you to add any one of the Data Editors with common properties, keeping things simple and clean looking.
+
+the framework is not just about frames, its about... Collections of Frames! Frame Collections manage any number of frames, ensureing that only one frame is visible at a time, keeping the other frames in a paused state until they are needed. there are many functions that can be defined, or redefined which allow you to control exactly what happens before and after a frame comes forward, and even a function for what happens while the frame is active!
+
+but these collections can be a bit bothersome, the framework manages with... the Frame System! the frame system manages frame collections, allowing for multiple frame collections to be rendered simultaneously, while they maintain their individual Frames. Frame Collections can be added to the Frame Engine on the fly, allowing you to construct complex multi-frame displays on demand!
+
+Since this is all built on top of the CreateJS framework, anything you can create using EaselJS can be added to a frame easily! extending the frames allows you to customize how the frame works! want to customize how the frames transition between each other? want different transitions for each frame? want different looking frames? all can be done with a development style that feels a lot like basic web development; designing separate styles for elements for examples is extremely simple!
 
 Major Updates:
 
