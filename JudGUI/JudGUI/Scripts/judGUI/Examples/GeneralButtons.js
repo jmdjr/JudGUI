@@ -10,7 +10,7 @@
 
         p.initialize = function (style) {
             this.add('Button', buttonProps(this, 'Randomize Button Colors', 'change button colors', ButtonStyle3, 200, 200));
-            this.add('Button', buttonProps(this, 'Back to Menu', 'MainMenu', ButtonStyle, 650, 550));
+            this.add('Button', buttonProps(this, 'Back to Menu', 'MainMenu', MenuButtonStyle, 650, 550));
             this.ExtendStyle(style);
         };
 
