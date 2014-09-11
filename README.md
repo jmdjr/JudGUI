@@ -16,6 +16,8 @@ but these collections can be a bit bothersome, the framework manages with... the
 
 Since this is all built on top of the CreateJS framework, anything you can create using EaselJS can be added to a frame easily! extending the frames allows you to customize how the frame works! want to customize how the frames transition between each other? want different transitions for each frame? want different looking frames? all can be done with a development style that feels a lot like basic web development; designing separate styles for elements for examples is extremely simple!
 
+Hopefully it will continue working, but should be able to observe a demo of the site following this url: http://rawgit.com/jmdjr/JudGUI/master/JudGUI/JudGUI/default.html
+
 Major Updates:
 
 09/10/2014... Project is making real progress! I am working on an example project (which is kind of sloppy ATM) which will show off the major features of the system. it will be something akin to a WYSIWYG!  designing it this way, I will be able to show off how each DataEditorObject works, how the frames work in the frame collections, and how multiple frame collections work within the whole Frame System.  
