@@ -61,7 +61,8 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
                 this._Text.text = text;
             }
 
-            this.setBounds(0, 0, s.width, s.height);
+            var borderOffset = s.borderWidth;
+            this.setBounds(borderOffset, borderOffset, s.width + borderOffset * 2, s.height + borderOffset * 2);
             this.bounds = this.getBounds();
 
             this.on('click', function (e) {
@@ -167,21 +168,21 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             t.textAlign = s.textAlign.toLowerCase();
             t.textBaseline = s.textBaseline.toLowerCase();
 
-            var xPos = s.paddingLeft + s.borderWidth;
-            var yPos = s.paddingTop + s.borderWidth;
+            var xPos = s.paddingLeft + s.borderWidth*2;
+            var yPos = s.paddingTop + s.borderWidth*2;
 
-            this._Text.lineWidth = s.width - (xPos + s.paddingRight + s.borderWidth);
+            this._Text.lineWidth = s.width - (xPos + s.paddingRight + s.borderWidth*2);
 
             switch (t.textAlign) {
                 case "left":
                     break;
 
                 case "right":
-                    xPos = s.width - (xPos + s.paddingRight + s.borderWidth);
+                    xPos = s.width - (xPos + s.paddingRight + s.borderWidth*2);
                     break;
 
                 case "center":
-                    xPos = s.width / 2;
+                    xPos = s.width / 2 + s.borderWidth;
                     break;
             }
 
@@ -190,11 +191,11 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
                     break;
 
                 case "middle":
-                    yPos = s.height / 2; //- yPos;
+                    yPos = s.height / 2 + s.borderWidth; //- yPos;
                     break;
 
                 case "bottom":
-                    yPos = s.height;
+                    yPos = s.height - s.borderWidth;
                     break;
             }
 

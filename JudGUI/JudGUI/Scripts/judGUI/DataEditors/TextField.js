@@ -33,10 +33,10 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this.addChild(this._Cursor);
 
             this._Cursor.graphics
-                .mt(0, 0)
+                .mt(1, 0)
                 .ss(1)
                 .s(this._Style.color)
-                .lt(0, this._Style.fontSize);
+                .lt(1, this._Style.fontSize);
 
             this._Cursor.alpha = 0;
             this._draw();
@@ -52,8 +52,8 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             this.removeAllEventListeners('focus.keypress');
             this.removeAllEventListeners('focus.keydown');
 
-            this.on('focus.keypress', function (e) { this.keyPress(e); }, this);
-            this.on('focus.keydown', function (e) { this.keyDown(e); }, this);
+            this.on('focus.keypress', function (e) { this.keyPress(e); e.preventDefault(); }, this);
+            this.on('focus.keydown', function (e) { this.keyDown(e); e.preventDefault(); }, this);
         };
 
         p.keyPress = function (e) {
@@ -114,13 +114,13 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
             t.textBaseline = 'middle';
 
             var Pos = {
-                X: s.paddingLeft + s.borderWidth,
-                Y: s.height / 2
+                X: s.paddingLeft + s.borderWidth * 2,
+                Y: s.height / 2 + s.borderWidth
             }
 
             var CursorPos = {
-                X: s.paddingLeft + s.borderWidth,
-                Y: Pos.Y / 2
+                X: s.paddingLeft + s.borderWidth * 2,
+                Y: Pos.Y - s.fontSize / 2
             }
 
             var linewidth = s.width - (Pos.X + s.paddingRight + s.borderWidth);

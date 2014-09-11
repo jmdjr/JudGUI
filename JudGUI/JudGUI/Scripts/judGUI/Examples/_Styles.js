@@ -11,20 +11,20 @@ var MenuBackgroundStyle = {
     width: 800,      //if set to null, will set to dimension of engine.
     borderWidth: 3,
     borderColor: '#000000',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#EEFFEE',
     borderRadius: 0
 }
 
 var MenuButtonStyle = {
     font: "Arial",
     fontSize: 12,
-    color: "#FFFFFF",
+    color: "#000000",
     textAlign: "center",
     textBaseline: "middle",
-    borderRadius: 0,
-    borderWidth: 5,
-    borderColor: "#FF0000",
-    backgroundColor: "#000000",
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#000000",
+    backgroundColor: "#0FFF0F",
     height: 30,
     width: 125
 }
@@ -33,7 +33,8 @@ var MenuTitleStyle = {
     font: "Arial",
     fontSize: 42,
     height: 300,
-    width: 500
+    width: 500,
+    textAlign: 'center'
 }
 
 var MenuTextFieldStyle = {
@@ -88,7 +89,7 @@ var ButtonStyle = {
     borderRadius: 0,
     borderWidth: 1,
     borderColor: "#FF0000",
-    backgroundColor: "#000000",
+    backgroundColor: "#EFFFEF",
     height: 30,
     width: 125
 }
