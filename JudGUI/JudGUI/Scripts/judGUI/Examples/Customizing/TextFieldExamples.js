@@ -2,13 +2,13 @@
     (function (scope) {
         var Example = scope.Example || {};
 
-        var ButtonExamples = function (style) {
+        var TextFieldExamples = function (style) {
             this.initialize(style);
         }
 
-        var p = ButtonExamples.prototype = new scope.judgui.Frame();
+        var p = TextFieldExamples.prototype = new scope.judgui.Frame();
 
-        Example.ButtonExamples = ButtonExamples;
+        Example.TextFieldExamples = TextFieldExamples;
         scope.Example = Example;
     }(window));
 });

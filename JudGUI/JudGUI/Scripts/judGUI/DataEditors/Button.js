@@ -39,6 +39,17 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
             return this;
         }
 
+        p.Value = function (value) {
+
+        }
+
+        p.Value = function (value) {
+            if (!judgui.IsUndefined(value)) {
+                this._Value = value;
+            }
+
+            return this._Value;
+        }
         judgui.Button = Button;
         scope.judgui = judgui;
     }(window));

@@ -21,7 +21,7 @@
                 value: value,
                 style: style,
                 clickEvent: function (event) {
-                    switch (event.Button._Value) {
+                    switch (event.Button.Value()) {
                         case 'change button colors':
                             event.Button.Style({
                                 color: judgui.Random.color(),

@@ -10,6 +10,7 @@
 
         JudEngine.addFrameCollection(MenusFC, true);
         JudEngine.addFrameCollection(SidebarFC, true);
+
         MenusFC.loadFrames();
         SidebarFC.loadFrames();
 

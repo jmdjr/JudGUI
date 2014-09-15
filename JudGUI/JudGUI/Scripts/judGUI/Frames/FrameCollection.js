@@ -88,7 +88,7 @@ define(['jquery', 'Frames/Frame'], function ($) {
                 if (wait4RunningFrame) {
 
                     this.runningFrame.exitOut(function () {
-                        $FC.removeChild(Frame);
+                        $FC.removeChild(this);
                         $FC._nextFrameEnter(nextFrame);
                     });
                 }

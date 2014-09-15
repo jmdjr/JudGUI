@@ -8,10 +8,11 @@
 
         var p = MainMenu.prototype = new scope.judgui.Frame();
 
+
         p.initialize = function (style) {
             var $this = this;
             var buttonClick = function (event) {
-                $this.FrameCollection().goto(event.Button._Value, false);
+                $this.FrameCollection().goto(event.Button.Value(), false);
             }
 
             this.add('TextLabel', {
@@ -29,7 +30,7 @@
                 x: 324,
                 y: 234
             });
-            debugger;
+
             this.add('Button', {
                 text: 'TextField Examples',
                 value: 'TextFieldExamples',

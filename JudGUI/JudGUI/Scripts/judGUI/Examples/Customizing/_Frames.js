@@ -16,7 +16,6 @@ define(['Examples/_Styles', 'Examples/Customizing/ButtonExamples', 'Examples/Cus
         p.loadFrames = function () {
             this.add('MainMenu', new Example.MainMenu(MenuBackgroundStyle));
             this.add('ButtonExamples', new Example.ButtonExamples(MenuBackgroundStyle));
-
             return this;
         }
 
