@@ -30,9 +30,20 @@ var MenuButtonStyle = {
     width: 125
 }
 
-var MenuButton2Style = $.extend({}, MenuButtonStyle, {
+var MenuButton2Style = {
+    font: "Arial",
+    fontSize: 12,
+    color: "#000000",
+    textAlign: "center",
+    textBaseline: "middle",
+    borderRadius: 20,
+    borderWidth: 3,
+    borderColor: "#000000",
+    backgroundColor: "#0FFF0F",
+    height: 30,
     width: 150
-});
+}
+
 
 var MenuTitleStyle = {
     font: "Arial",
