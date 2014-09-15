@@ -2,14 +2,14 @@
     (function (scope) {
         var Example = scope.Example || {};
 
-        var Buttons = function (style) {
+        var ButtonExamples = function (style) {
             this.initialize(style);
         }
 
-        var p = Buttons.prototype = new scope.judgui.Frame();
+        var p = ButtonExamples.prototype = new scope.judgui.Frame();
 
         p.initialize = function (style) {
-            this.add('Button', buttonProps(this, 'Randomize Button Colors', 'change button colors', ButtonStyle3, 200, 200));
+            this.add('Button', buttonProps(this, 'Randomize Button Colors', 'change button colors', ButtonStyle3, 6, 475));
             this.add('Button', buttonProps(this, 'Back to Menu', 'MainMenu', MenuButtonStyle, 650, 550));
             this.ExtendStyle(style);
         };
@@ -43,8 +43,7 @@
             };
         }
 
-
-        Example.Buttons = Buttons;
+        Example.ButtonExamples = ButtonExamples;
         scope.Example = Example;
     }(window));
 });

@@ -7,12 +7,13 @@ define(['jquery', 'Frames/Frame'], function ($) {
     (function (scope) {
         var judgui = scope.judgui || {};
 
-        var FrameCollection = function (style, name) {
-            this.initialize(style, name);
+        var FrameCollection = function (name, style) {
+            if (!judgui.IsUndefined(name)) {  // if the name is missing, hold off on initializing it.
+                this.initialize(name, style);
+            }
         }
 
         var p = FrameCollection.prototype = new judgui.BackgroundContainer();
-        p.BackgroundContainer_initialize = p.initialize;
 
         p.bounds = null;
 
@@ -20,9 +21,10 @@ define(['jquery', 'Frames/Frame'], function ($) {
         p.isPaused = false;
         p.runningFrame = null;
 
-        p.initialize = function (style, name) {
-            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
+        p.FrameCollection_init = p.initialize = function (name, style) {
+            this.BackgroundContainer_init(style);
 
+            this.name = name;
             this.Frames = new judgui.HashTable();
             this.isPaused = false;
             this.runningFrame = null;
@@ -36,12 +38,7 @@ define(['jquery', 'Frames/Frame'], function ($) {
 
         // loads a Frame into the state hash, for safe keeping.
         p.add = function (name, frame) {
-
-            if (typeof name !== 'string') {
-                throw Error('JDGE: FrameCollection: Initialization error 0001 - New Frame name is not a string.');
-            }
-            
-            if ( judgui.IsUndefined(frame)) {
+            if (judgui.IsUndefined(frame)) {
                 // creates a dummy frame and returns it.
                 frame = new judgui.Frame();
             }
@@ -58,6 +55,9 @@ define(['jquery', 'Frames/Frame'], function ($) {
                 this.goto(name);
             }
         }
+
+        // Empty function signature for overloading. 
+        p.loadFrames = function () { }
 
         p._nextFrameEnter = function (nextFrame) {
             this.addChild(nextFrame);

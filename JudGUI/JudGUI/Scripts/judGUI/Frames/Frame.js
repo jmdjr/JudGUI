@@ -12,12 +12,11 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/BackgroundContaine
         }
 
         var p = Frame.prototype = new judgui.BackgroundContainer();
-        p.BackgroundContainer_initialize = p.initialize;
 
         p.bounds = null;
 
-        p.initialize = function (style, initializer) {
-            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
+        p.Frame_init = p.initialize = function (style, initializer) {
+            this.BackgroundContainer_init(style);
 
             judgui.MakeTransitionable.call(this);
 
@@ -41,13 +40,12 @@ define(['jquery', 'Util/Utils', 'Frames/Transitions', 'Frames/BackgroundContaine
         // returns whether or not adding the element was attempted.
         p.add = function (name, initialize) {
             if (name instanceof createjs.DisplayObject) {
-                this.addChild(name);
-                return true;
+                return this.addChild(name);
             } else if (!judgui.IsUndefined(judgui[name]) && !judgui.IsUndefined(judgui[name]._Spawner)) {
-                this.addChild(new judgui[name]._Spawner(initialize));
-                return true;
+                return this.addChild(new judgui[name]._Spawner(initialize));
             }
-            return false;
+
+            return null;
         }
 
         p.FrameCollection = function () {

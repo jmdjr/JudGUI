@@ -1,1 +1,1 @@
-﻿define(['_Include_JudGUI', 'Examples/AllMenus'], function ($) { });
+﻿define(['_Include_JudGUI', 'Examples/Sidebar/_Frames', 'Examples/Customizing/_Frames'], function ($) { });

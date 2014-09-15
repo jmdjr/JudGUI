@@ -62,6 +62,8 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
             this._Stage.setBounds(0, 0, this._Canvas.width, this._Canvas.height);
             this.bounds = this._Stage.getBounds();
 
+            this._Stage.enableMouseOver(20);
+
             createjs.Ticker.setFPS(60);
             createjs.Ticker.addEventListener('tick', this._Stage);
 

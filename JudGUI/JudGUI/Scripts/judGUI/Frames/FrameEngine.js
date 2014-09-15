@@ -12,7 +12,6 @@ define(['jquery', 'Frames/FrameCollection', 'Stage/Stage'], function ($) {
         }
 
         var p = FrameEngine.prototype = new judgui.BackgroundContainer();
-        p.BackgroundContainer_initialize = p.initialize;
 
         p.Stage = null;
 
@@ -21,7 +20,7 @@ define(['jquery', 'Frames/FrameCollection', 'Stage/Stage'], function ($) {
         p.bounds = null;
 
         p.initialize = function (height, width, target, style) {
-            if (this.BackgroundContainer_initialize) this.BackgroundContainer_initialize(style);
+            this.BackgroundContainer_init(style);
 
             this._FrameCollections = new judgui.HashTable();
             this._RunningFrameCollections = new judgui.HashTable();
@@ -48,12 +47,17 @@ define(['jquery', 'Frames/FrameCollection', 'Stage/Stage'], function ($) {
             return this;
         }
 
-        p.NewFrameCollection = function (name, autoStart, style) {
-            if (judgui.IsUndefined(style)) {
-                style = null;
-            }
+        p.addFrameCollection = function (name, FC, autoStart) {
 
-            var fc = new judgui.FrameCollection(style, name);
+            var fc = null;
+            if (name instanceof judgui.FrameCollection) {
+                fc = name;
+                name = fc.name;
+                autoStart = FC;
+            }
+            else if (FC instanceof judgui.FrameCollection) {
+                fc = FC;
+            }
 
             this._FrameCollections.push(name, fc);
             this._FrameCollections[name].SetEngine(this);

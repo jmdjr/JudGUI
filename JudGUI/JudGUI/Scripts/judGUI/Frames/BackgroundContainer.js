@@ -24,7 +24,7 @@ define(['jquery'], function ($) {
         p._Graphic = null;
 
         // adds functions and variables related to establishing backgrounds for containers.
-        p.initialize = function (style) {
+        p.BackgroundContainer_init = p.initialize = function (style) {
             if (this.Container_init) this.Container_init();
 
             this._Style = $.extend(true, {}, DefaultStyle, style);

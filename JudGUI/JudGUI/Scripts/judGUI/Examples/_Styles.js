@@ -1,4 +1,5 @@
-﻿var WindowBackgroundStyle = {
+﻿
+var WindowBackgroundStyle = {
     imageURL: '',     //if defined, attempts to create a bitmap using this url. *NOT IMPLEMENTED YET*
     borderColor: '#000000',
     backgroundColor: '#FF0000',
@@ -29,12 +30,17 @@ var MenuButtonStyle = {
     width: 125
 }
 
+var MenuButton2Style = $.extend({}, MenuButtonStyle, {
+    width: 150
+});
+
 var MenuTitleStyle = {
     font: "Arial",
     fontSize: 42,
-    height: 300,
-    width: 500,
-    textAlign: 'center'
+    height: 150,
+    width: 350,
+    textAlign: 'center',
+    textBaseline: 'top'
 }
 
 var MenuTextFieldStyle = {
@@ -64,10 +70,9 @@ var SidebarLabelStyle = {
     color: "#000000",
     borderRadius: 0,
     borderWidth: 0,
-
     backgroundColor: "none",
-    height: 15,
-    width: 75
+    height: 23,
+    width: 100
 }
 
 var SidebarTextFieldStyle = {
