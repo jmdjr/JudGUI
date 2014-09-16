@@ -11,7 +11,7 @@ define(['jquery', 'Examples/_Includes'], function ($) {
         
         p.dragElement = null;
         p.displayElement = null;
-        p.DragElemensPosTextField = null;
+        p.DragElements = [];
 
         var clicking = function(e) {
             var m = "<h1>Hello, World!</h1>";
@@ -23,36 +23,95 @@ define(['jquery', 'Examples/_Includes'], function ($) {
 
         p.initialize = function (style) {
             this.ExtendStyle(style);
-
-            this.add('TextLabel', {
-                style: SidebarLabelStyle,
-                text: 'Position:',
-                x: 10,
-                y: 10
-            });
-
-            this.DragElemensPosTextField = this.add('TextField', {
-                style: SidebarTextFieldStyle,
-                text: ' ',
-                x: 80,
-                y: 10
-            });
-
+            
             $('.debug').parent().append('<div class="mouseDebug"></div>');
         }
 
-        p.update = function (e) {
-            if (this.dragElement != null && this.DragElemensPosTextField != null) {
-                var newText = "x: " + this.dragElement.x + " y: " + this.dragElement.y;
-                this.DragElemensPosTextField.Text(newText);
-                this.getStage().cursor = "pointer";
-            }
-            else {
+        p.generatePropertyFields = function (dataEditor) {
+            var indx = 0;
+            if (!judgui.IsUndefined(dataEditor)) {
+                var props = dataEditor.Properties();
+                var propCall = null;
+                var propName = null;
+                var y = 10;
 
-                this.getStage().cursor = null;
+                while (indx < props.length) {
+                    propName = props[indx];
+
+                    if (propName != null) {
+                        propCall = props[propName];
+
+                        this.singleProperty(propName, propCall, y);
+
+                        y += 30;
+                    }
+                    ++indx;
+                }
             }
         }
-        
+
+        p.singleProperty = function (text, call, y) {
+
+            if (this.DragElements.some(function (element) { return (element instanceof judgui.TextLabel && element.Text() == (text + ':')); }))
+            {
+                // already have a property field for this element.
+                return;
+            }
+
+            var dragLabel = this.add('TextLabel', {
+                style: SidebarLabelStyle,
+                text: text + ':',
+                x: 10,
+                y: y
+            });
+
+            var dragProperty = this.add('TextField', {
+                style: SidebarTextFieldStyle,
+                text: call(),
+                x: 80,
+                y: y
+            });
+
+            dragProperty.update = function () {
+                var newValue = this.Text();
+                var oldValue = call();
+                if (oldValue != newValue) {
+                    this.Text(oldValue);
+                }
+            }
+            dragProperty.old_blur = dragProperty.onBlur;
+
+            dragProperty.onBlur = function (e) {
+                this.old_blur(e);
+                //var newValue = this.Text();
+                //var oldValue = call();
+                //if (newValue != oldValue) {
+                //    call(newValue);
+                //}
+            };
+
+            this.DragElements.push(dragLabel);
+            this.DragElements.push(dragProperty);
+        }
+
+        p.update = function (e) {
+            this.DragElements.forEach(function (element) {
+                if (element.update) {
+                    element.update();
+                }
+            });
+        }
+
+
+        p._ClearDragElements = function () {
+            var de = this.DragElements.pop();
+
+            while (de != null) {
+                this.removeChild(de);
+                var de = this.DragElements.pop();
+            }
+
+        }
         p.BC_SetEngine = p.SetEngine;
         p.SetEngine = function (engine) {
             this.BC_SetEngine(engine);
@@ -66,10 +125,11 @@ define(['jquery', 'Examples/_Includes'], function ($) {
 
                 if (!judgui.IsUndefined(element)) {
                     $('.mouseDebug').empty().append('mouse Down x:' + element.x + ' || y: ' + element.y);
-                    if ($this.dragElement == null)
-                    {
+
+                    if ($this.dragElement != element) {
                         $this.dragElement = element;
-                        $this.displayElement = element;
+                        $this._ClearDragElements();
+                        $this.generatePropertyFields(element);
                     }
                 }
                 else {

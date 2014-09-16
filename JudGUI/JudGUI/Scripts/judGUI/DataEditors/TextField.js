@@ -90,8 +90,11 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         p.onBlur = function (e) {
             clearInterval(this._cursorInterval);
             this._cursorInterval = null;
-            this._Cursor.alpha = 0;
-            this._draw();
+            if (this._Cursor) {
+                this._Cursor.alpha = 0;
+            }
+
+            this._Dirty = true;
         };
         
         p._deleteText = function (text) {
@@ -104,7 +107,7 @@ define(['jquery', 'Util/UtilityPieces', 'DataEditors/DataEditorObject'], functio
         
         p._toggleCursor = function () {
             this._Cursor.alpha = (this._Cursor.alpha + 1) % 2;
-            this._draw();
+            this._Dirty = true;
         };
 
         p._drawText = function (s, b) {

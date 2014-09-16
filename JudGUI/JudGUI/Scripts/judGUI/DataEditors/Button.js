@@ -29,6 +29,7 @@ define(['jquery', 'DataEditors/DataEditorObject'], function ($) {
                 this._clickCallback(e);
             }
         }
+
         p.initialize = function (text, value, style, clickEvent) {
             if (this.DataEditorObject_initialize) this.DataEditorObject_initialize(text, style, true, true);
 

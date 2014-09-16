@@ -19,6 +19,8 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
         p._TextIncluded = true;
         p._GraphicIncluded = true;
         p._Disabled = false;
+        p.bounds = null;
+        p._Dirty = true;
 
         // The style of the button, 
         var DefaultStyle = {
@@ -61,9 +63,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
                 this._Text.text = text;
             }
 
-            var borderOffset = s.borderWidth;
-            this.setBounds(borderOffset, borderOffset, s.width + borderOffset * 2, s.height + borderOffset * 2);
-            this.bounds = this.getBounds();
+            this.resetBounds(s.borderWidth, s.borderWidth, s.width + s.borderWidth * 2, s.height + s.borderWidth * 2);
 
             this.on('click', function (e) {
                 this.onFocus(e);
@@ -71,12 +71,73 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             }, this);
 
             this.on('blur', this._blur);
+
+            this.on('tick', function (e) {
+                if (this._Dirty)
+                    this._draw();
+            }, this);
+        }
+
+        p.resetBounds = function (x, y, width, height) {
+            var s = this._Style;
+
+            this.setBounds(x, y, width, height);
+            this.bounds = this.getBounds();
+        }
+
+        // Returns hash, which contains functions used to get or set various properties.
+        p.Properties = function () {
+            var hash = new judgui.HashTable();
+            var _ = this;
+
+            hash.push('x', function (x) {
+                if (x) { _.x = parseInt(x); _._Dirty = true; }
+                return _.x;
+            });
+            hash.push('y', function (y) {
+                if (y) { _.y = parseInt(y); _._Dirty = true; }
+                return _.y;
+            });
+            hash.push('height', function (h) {
+                if (h) { _.height = parseInt(h); _._Dirty = true; }
+                return _.height;
+            });
+            hash.push('width', function (w) {
+                if (w) { _.width = parseInt(w); _._Dirty = true; }
+                return _.width;
+            });
+            hash.push('alpha', function (a) {
+                if (a) { _.alpha = parseFloat(a); _._Dirty = true; }
+                return _.alpha;
+            });
+            hash.push('color', function (c) {
+                if (c) { _._Style.color = c; _._Dirty = true; }
+                return _._Style.color;
+            });
+            hash.push('backgroundColor', function (bc) {
+                if (bc) { _._Style.backgroundColor = bc; _._Dirty = true; }
+                return _._Style.backgroundColor;
+            });
+            hash.push('disabledBackgroundColor', function (dbc) {
+                if (dbc) { _._Style.disabledBackgroundColor = bc; _._Dirty = true; }
+                return _._Style.disabledBackgroundColor;
+            });
+            hash.push('disabled', function (d) {
+                if (d) { _._Disabled = (d == 'true'); _._Dirty = true; }
+                return (_._Disabled ? 'true' : 'false');
+            });
+            hash.push('text', function (t) {
+                if (t && t != _.Text()) { _.Text(t); }
+                return _.Text();
+            });
+
+            return hash;
         }
 
         p.Text = function (text) {
             if (!judgui.IsUndefined(text)) {
                 this._Text.text = text;
-                this._draw();
+                this._Dirty = true;
             }
 
             return this._Text.text;
@@ -84,7 +145,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
 
         p.Style = function (style) {
             this._Style = $.extend(true, {}, this._Style, style);
-            this._draw();
+            this._Dirty = true;
         }
 
         p.FontStyle = function () {
@@ -93,12 +154,12 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
 
         p.Disable = function () {
             this._Disabled = true;
-            this._draw();
+            this._Dirty = true;
         }
 
         p.Enable = function () {
             this._Disabled = false;
-            this._draw();
+            this._Dirty = true;
         }
 
         p.position = function (x, y) {
@@ -126,8 +187,9 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
 
         // call this only when button NEEDS to be re-rendered, as in on initialize and style updates.
         p._draw = function () {
-            var b = this.bounds = this.bounds || this.getBounds();
+            this._Dirty = false;
             var s = this._Style;
+            var b = this.bounds = this.bounds || this.getBounds();
             
             if (this._GraphicIncluded) {
                 this._drawGraphic(s, b);
@@ -204,6 +266,7 @@ define(['jquery', 'Util/UtilityPieces'], function ($) {
             this._Text.font = this.FontStyle();
             t.color = s.color;
         }
+
 
         judgui.DataEditorObject = DataEditorObject;
         scope.judgui = judgui;

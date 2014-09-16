@@ -44,7 +44,6 @@ var MenuButton2Style = {
     width: 150
 }
 
-
 var MenuTitleStyle = {
     font: "Arial",
     fontSize: 42,
