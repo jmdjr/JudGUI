@@ -2,7 +2,7 @@ JudGUI
 ======
 
 a collection of UI Elements built on the CreateJS Framework
-
+(link to example project below)
 This project is my attempt at creating a collection of controls people can use when implementing thier own applications using 
 the ever versital CreateJS suite!  
 
@@ -16,7 +16,7 @@ but these collections can be a bit bothersome, the framework manages with... the
 
 Since this is all built on top of the CreateJS framework, anything you can create using EaselJS can be added to a frame easily! extending the frames allows you to customize how the frame works! want to customize how the frames transition between each other? want different transitions for each frame? want different looking frames? all can be done with a development style that feels a lot like basic web development; designing separate styles for elements for examples is extremely simple!
 
-Hopefully it will continue working, but should be able to observe a demo of the site following this url: http://rawgit.com/jmdjr/JudGUI/master/JudGUI/JudGUI/default.html
+Hopefully it will continue working, but should be able to observe a demo of the site following this url: <a href="http://rawgit.com/jmdjr/JudGUI/master/JudGUI/JudGUI/default.html" target="_blank">Example Project - customization of frames</a>
 
 Major Updates:
 
