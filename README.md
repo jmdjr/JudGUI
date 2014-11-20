@@ -16,9 +16,12 @@ but these collections can be a bit bothersome, the framework manages with... the
 
 Since this is all built on top of the CreateJS framework, anything you can create using EaselJS can be added to a frame easily! extending the frames allows you to customize how the frame works! want to customize how the frames transition between each other? want different transitions for each frame? want different looking frames? all can be done with a development style that feels a lot like basic web development; designing separate styles for elements for examples is extremely simple!
 
+Demo
+====
 Hopefully it will continue working, but should be able to observe a demo of the site following this url: <br/><a href="http://rawgit.com/jmdjr/JudGUI/master/JudGUI/JudGUI/default.html" target="_blank">Example Project - customization of frames</a>
 
-Major Updates:
+Updates
+====
 10/14/2014... reworked readme to better point out the sample project. for those who are curious:
 the sample project has a sidebar (consisting of a FrameCollection) and a main window (seperate FrameCollection)  all elements in the main window are moveable. clicking on an element will populate the sidebar with text boxes full of their properties.  dragging the element around will respond with updates in the coordinate fields.  clicking the "Button Sample" field will navigate to another Frame, which has a button that changes its colors randomly on click.  the sidebar text-fields will eventually be editable, but there is a bug in the synchronization which overwrites changes immidiately.  I know the "Text Example" button on the first frame does not work... I am getting ready for vacation soon and have been prioritizing my planned changes.
 
