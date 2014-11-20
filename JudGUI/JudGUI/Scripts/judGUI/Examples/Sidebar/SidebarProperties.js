@@ -146,7 +146,7 @@ define(['jquery', 'Examples/_Includes'], function ($) {
                 }
             });
 
-            targetFC.on('pressup', function (e) {
+            targetFC.on('pressup', function (e) { 
                 $('.mouseDebug').empty().append('press Up');
                 $this.dragElement = null;
             });
