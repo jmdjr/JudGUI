@@ -22,6 +22,9 @@ Hopefully it will continue working, but should be able to observe a demo of the 
 
 Updates
 ====
+06/21/2017...
+So... It has been a long time and this system was neat practice, but after so long I have moved on to other frameworks which implement pretty much everything I was wanting to do here. so I am abandoning this project for the forseeable future... after 3 years of not contributing to it... its obviously over. not going to delete for personal reasons.
+
 10/14/2014... reworked readme to better point out the sample project. for those who are curious:
 the sample project has a sidebar (consisting of a FrameCollection) and a main window (seperate FrameCollection)  all elements in the main window are moveable. clicking on an element will populate the sidebar with text boxes full of their properties.  dragging the element around will respond with updates in the coordinate fields.  clicking the "Button Sample" field will navigate to another Frame, which has a button that changes its colors randomly on click.  the sidebar text-fields will eventually be editable, but there is a bug in the synchronization which overwrites changes immidiately.  I know the "Text Example" button on the first frame does not work... I am getting ready for vacation soon and have been prioritizing my planned changes.
 
